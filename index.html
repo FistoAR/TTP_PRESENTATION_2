@@ -1,0 +1,2598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TTP Presentation</title>
+  <link rel="icon" type="image/png" href="./zfavicon-TTP.png" />
+  <link rel="stylesheet" href="./css/slide.css" />
+  <link rel="stylesheet" href="./style.css" />
+
+
+  <!-- Font Awesome CDN  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+  <!-- tailwind css-->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- GSAP + ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+
+  <!-- Montserrat font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- poppins font  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+  <!-- Raleway font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <!-- image slide page style  -->
+<style>
+  * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .carousel-slide {
+        background-size: cover;
+        background-position: center;
+        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+      flex: 0 0 6vw;
+        position: relative;
+        box-shadow: 1px 0 4px rgba(0, 0, 0, 0.12);
+        /* box-shadow: -4vw 0 16vw rgba(0, 0, 0, 0.25);  */
+        
+    }
+
+    .carousel-slide.active {
+        flex-grow: 20;
+        min-width: 30vw;
+        z-index: 10;
+        /* clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important; */
+        /* box-shadow: -4vw 0 16vw rgba(0, 0, 0, 0.25); */
+        
+    }
+
+    .carousel-slide.active .slide-icon {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .carousel-slide.active .slide-content {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .slide-content {
+        transition: opacity  ease;
+    }
+
+    .slide-icon {
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    /* New: Position icon inside triangle */
+    .slide-icon {
+        right: -1vw;
+        top: 25%;
+        transform: translateY(-50%);
+        z-index: 20;
+        /* box-shadow: 1px 0 4px rgba(0, 0, 0, 0.12); */
+    }
+    /* .triangle-shadow {
+    filter: drop-shadow(1px -1px 1px rgba(0, 0, 0, 0.1)) 
+            drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.1));
+} */
+</style>
+
+
+
+</head>
+
+<body>
+  <div class="nav-wrapper z-99">
+ <a class="prev-arrow disabled text-gray-400 hover:text-black " data-up="0">
+  <i class="fa-solid fa-arrow-up fa-utility "></i>
+</a>
+<a class="next-arrow text-black hover:text-blue-500 " data-down="2">
+  <i class="fa-solid fa-arrow-down fa-utility "></i>
+</a>
+  </div>
+
+  <span class="counter-display text-[1vw] z-99" style="font-size: 1vw;">
+    <input type="number" class="current-panel-input" style="font-family: 'Montserrat';" min="1" max="8" value="1" />
+    /
+    <span class="panel-count text-[1vw]">4</span>
+  </span>
+
+
+  <!-- ------------------------------------------- Header start ----------------------------------------- -->
+  <!-- Background -->
+  <img src="./assets/Images/Home_Slide/Background_img.png" alt="Background"
+    class="absolute top-0 left-0 w-full h-full object-cover fixed" />
+
+  <!-- Header: Logo + Table of Contents + Social Icons -->
+  <header class="absolute top-[2vw] left-0 w-full flex justify-between items-center px-[4vw] z-999 fixed ">
+    <!-- Social Media Icons -->
+    <div class="flex gap-[2.5vw]">
+      <div class="flex gap-[1vw] ">
+
+        <img src="./assets/Images/Home_Slide/youtube_icon.svg" alt="youtube_icon" class="cursor-pointer w-[1.5vw]"
+          style="margin-left: 5vw;" />
+        <img src="./assets/Images/Home_Slide/linkedin_icon.svg" alt="linkedin_icon" class="cursor-pointer w-[1.5vw]" />
+        <img src="./assets/Images/Home_Slide/website_icon.svg" alt="website_icon" class="cursor-pointer w-[1.5vw]" />
+        <img src="./assets/Images/Home_Slide/instagram_icon.svg" alt="instagram_icon"
+          class="cursor-pointer w-[1.5vw]" />
+
+
+      </div>
+
+
+      <div class="page-dropdown">
+
+        <button
+          class="dropdown-btn flex items-center gap-[1vw] border border-[#FBB24A] text-[1vw] rounded-full text-sm hover:bg-[#ffae00] hover:text-white transition"
+          id="dropdownToggle" style="padding: .5vw 1vw;">
+          <span class="dropdown-selected-title">Page 1</span>
+          <i class="fa-solid fa-chevron-down ml-2"></i>
+        </button>
+
+        <div class="dropdown-menu  h-[20vw] overflow-y-scroll" style="width: 20vw;" id="dropdownMenu">
+          <!-- Links will be injected here by JS -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Logo -->
+    <img src="./assets/TTP_Logo.png" alt="Logo" class="h-[2vw]" style="padding-right: 2vw;" />
+  </header>
+
+  <!-- ------------------------------------------- Header end----------------------------------------- -->
+
+
+  <div class="viewport-container" id="mainScroller">
+    <!-- <img src="./assets/Images/Home_Slide/Background_img.png" alt="Background" class="background-image-gradient" /> -->
+
+
+
+
+
+
+
+    <!-- =============================================slide 4 want to replace====================================================== -->
+
+
+
+
+
+
+ 
+    <!-- ==============================================end rough page============================================================= -->
+ 
+ 
+
+ 
+ 
+    <!-- ****************************************Slide 1 start****************************************************************** -->
+    <div class="slide-item relative w-full h-[100vh] overflow-hidden hidden lg:block" data-navigation="Home">
+
+      <!-- Main Text Content -->
+      <div class="absolute top-[15%] left-[6%] z-10 text-black  text-left">
+        <h1  class="text-[5vw] leading-tight font-extrabold uppercase outline-text tracking-wide leading-[1.1] header-txt-1" style="font-family: 'Raleway', sans-serif;">
+          WELCOME TO<br />  TERRA TECH  PACKS
+        </h1>
+      </div>
+
+      <div class="absolute top-[44%] left-[6%] z-10  text-left w-[50vw]">
+        <h1 class="text-[3.5vw] font-bold leading-tight header-txt-1" style="font-family: 'Raleway', sans-serif;">
+          GREAT
+          <span class="bg-[#ffae00] text-white  " style="padding: 0px .5vw;">PACKING</span><br />
+          IS AN INVESTMENT
+        </h1>
+        <div class="flex gap-[.6vw] header-txt-1" style="margin-top: 1vw;">
+          <img src="./assets/Images/Home_Slide/1st_img.svg" alt="1st_img" class="w-[2.8vw]" />
+          <p class="mt-3 text-[1vw] font-semibold" style="font-family: 'Montserrat', sans-serif;">
+            Coimbatore’s<br />
+            <span class="text-[#ffae00] font-semibold">IML FOOD </span> CONTAINERS<br /> MANUFACTURERS
+          </p>
+        </div>
+
+
+        <!-- Location & Clock -->
+        <div class=" flex flex-col  header-txt-1 gap-[.5vw] text-[.8vw] text-left w-[50vw]   " style="margin-top: 4vw;">
+          <div class="flex  gap-[.5vw] font-medium">
+            <img src="./assets/Images/Home_Slide/clock_icon.svg" class=" w-[1.2vw]"></img> <span
+              style="font-family: 'Montserrat', sans-serif;" class="">24
+              Hours</span>
+          </div>
+          <div class="flex  gap-[.5vw]  text-left font-medium">
+            <img src="./assets/Images/Home_Slide/location_icon.svg" class="w-[1.2vw] "></img>
+            <span style="font-family: 'Montserrat', sans-serif; ">125, Kuruman St, Edayarpalayam, PirivuPirrivu, <br/>
+              Kuniyamuthur, Tamil Nadu 641008</span>
+          </div>
+        </div>
+      </div>
+
+    
+<img src="./assets/Images/Home_Slide/bottom-circle-img.webp" alt="bottom-circle" class="absolute right-0 bottom-0 w-[40vw]" />
+<img src="./assets/Images/Home_Slide/500ml-container.webp" alt="500ml-container" class="absolute right-[3vw] bottom-[-1vw] w-[45vw]" />
+<img src="./assets/Images/Home_Slide/450ml-container.png" alt="450ml-container" class="absolute right-[3vw] bottom-[-1vw] w-[45vw]" />
+<img src="./assets/Images/Home_Slide/250ml-container.png" alt="250ml-container" class="absolute right-[3vw] bottom-[-1vw] w-[45vw]" />
+<img src="./assets/Images/Home_Slide/450ml1-container.png" alt="450ml1-container" class="absolute right-[3vw] bottom-[-1vw] w-[45vw]" />
+<img src="./assets/Images/Home_Slide/250ml-glass-container.png" alt="250ml-glass-container" class="absolute right-[3vw] bottom-[-1vw] w-[45vw]" />
+
+    </div>
+    <!-- <div class="slide-item relative w-full h-[100vh] overflow-hidden hidden lg:block" data-navigation="Home">
+
+     
+      <div class="absolute top-[20%] left-[25%] z-10 text-black  text-right">
+        <h1  class="text-[3.5vw] font-bold leading-tight" style="font-family: 'Raleway', sans-serif;">
+          WELCOME TO<br />
+          <span class="text-[#111]">TERRA TECH <br /> PACKS</span>
+        </h1>
+      </div>
+
+      <div class="absolute top-[20%] left-[55%] z-10  text-left w-[50vw]">
+        <h1 class="text-[3.5vw] font-bold leading-tight" style="font-family: 'Raleway', sans-serif;">
+          GREAT<br />
+          <span class="bg-[#ffae00] text-white  " style="padding: 0px .5vw;">PACKING</span><br />
+          IS AN INVESTMENT
+        </h1>
+        <div class="flex gap-[.6vw] " style="margin-top: 1vw;">
+          <img src="./assets/Images/Home_Slide/1st_img.svg" alt="1st_img" class="w-[5vw]" />
+          <p class="mt-3 text-[1.8vw] font-semibold" style="font-family: 'Montserrat', sans-serif;">
+            Coimbatore’s<br />
+            <span class="text-[#ffae00] font-semibold">IML FOOD </span> CONTAINERS<br /> MANUFACTURERS
+          </p>
+        </div>
+
+
+      
+        <div class=" flex flex-col   gap-[.5vw] text-[.8vw] text-left w-[50vw]   " style="margin-top: 4vw;">
+          <div class="flex  gap-[.5vw] font-medium">
+            <img src="./assets/Images/Home_Slide/clock_icon.svg" class=" w-[1.2vw]"></img> <span
+              style="font-family: 'Montserrat', sans-serif;" class="">24
+              Hours</span>
+          </div>
+          <div class="flex  gap-[.5vw]  text-left font-medium">
+            <img src="./assets/Images/Home_Slide/location_icon.svg" class="w-[1.2vw] "></img>
+            <span style="font-family: 'Montserrat', sans-serif; ">125, Kuruman St, Edayarpalayam, PirivuPirrivu,
+              Kuniyamuthur, Tamil Nadu 641008</span>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="absolute bottom-0 left-[3vw]   items-end gap-6 pb-6 z-10">
+        <img src="./assets/Images/Home_Slide/Container_img.png" alt="container" class="h-[20vw] drop-shadow-lg" />
+
+      </div>
+
+      <div class="absolute bottom-[4vw] left-0 w-full h-[2vw] bg-[#FEAE00]"></div>
+      <div class="absolute bottom-[2vw] left-0 w-full h-[2vw] bg-[#F36408]"></div>
+      <div class="absolute bottom-0 left-0 w-full h-[2vw] bg-[#ffffff]"></div>
+    </div> -->
+    <!-- *************************************Slide 1 end****************************************************************** --> 
+    <!-- *************************************Slide 2 start****************************************************************** -->
+
+    <div class="slide-item relative w-full h-[100vh] overflow-hidden" id="TYPES OF FOOD CONTAINERS">
+
+      <section class="" style="font-family: 'Montserrat';">
+        <h2  class="  font-bold text-[#FF9600] text-[2vw] letters-slide-infinite" id="marketTitle">TYPES OF FOOD CONTAINERS</h2>
+        
+        <div class="flex gap-[4vw] font-semibold text-[1.5vw] items-start text-center">
+
+
+          <div class=" flex flex-col items-center">
+            <p class="dotted-text">Bagasse <br/> Containers</p>
+            <div class="flex flex-col  items-center  " style=" margin: 1vw 0;">
+                  <div class="relative dotted-line w-[.22vw] h-[10vw]  before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+            </div>
+            <img src="./assets/Images/slide_7/img_1.webp" alt="" class="dotted-image w-[10vw] h-[10vw] items-start transition-transform duration-500 ease-out hover:scale-110">
+          </div>
+
+
+         <div class="flex flex-col items-center">
+           <p>Aluminum Foil <br/> Container</p>
+           <div class="flex flex-col items-center " style=" margin: 1vw 0;">
+              <div class="relative dotted-line w-[.2vw] h-[5vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+            </div>
+            <img src="./assets/Images/slide_7/img_2.webp" alt="" class="dotted-image w-[10vw] h-[10vw] transition-transform duration-500 ease-out hover:scale-110">
+         </div>
+
+         <div class="flex flex-col items-center">
+             <p>Paper <br/> Container</p>
+             <div class="flex flex-col items-center" style=" margin: 1vw 0;">
+              <div class="relative dotted-line w-[.2vw] h-[10vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+             </div>
+              <img src="./assets/Images/slide_7/img_3.webp" alt="" class="dotted-image w-[10vw] h-[10vw] transition-transform duration-500 ease-out hover:scale-110">
+         </div>
+
+         <div class="flex flex-col items-center">
+            <p>Thermoforming <br/> Container</p>
+            <div class="flex flex-col items-center" style=" margin: 1vw 0;">
+             <div class="relative dotted-line w-[.22vw] h-[5vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+           </div>
+             <img src="./assets/Images/slide_7/img_4.webp" alt="" class="dotted-image w-[10vw] h-[10vw] transition-transform duration-500 ease-out hover:scale-110">
+         </div>
+       
+        <div class="flex flex-col items-center">
+            <p>Injuction <br/> Moulding <br/> PP Container</p>
+            <div class="flex flex-col items-center" style=" margin: 1vw 0;">
+                 <div class="relative dotted-line w-[.2vw] h-[7.8vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+
+             </div>
+            <img src="./assets/Images/slide_7/img_5.webp" alt="" class="dotted-image w-[10vw] h-[10vw] transition-transform duration-500 ease-out hover:scale-110">
+        </div>
+
+        <div class="flex flex-col items-center">
+             <p>Blow Moulded <br/> Containers</p>
+             <div class="flex flex-col items-center" style=" margin: 1vw 0;">
+               <div class="relative dotted-line w-[.22vw] h-[5vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+              </div>
+               <img src="./assets/Images/slide_7/img_6.webp" alt="" class="dotted-image w-[10vw] h-[10vw] transition-transform duration-500 ease-out hover:scale-110">
+        </div>
+      </div>
+
+      </section>
+    </div>
+
+
+    <!-- **************************************Slide 2 end******************************************************************** -->
+    <!-- **************************************Slide 3 start******************************************************************** -->
+
+     <div class="slide-item relative w-full h-[100vh] overflow-hidden flex items-center gap-[8vw]" style="font-family: 'Montserrat'; margin-left: 3vw;" id="PP-SUSTAINABLE">
+
+
+        <div class="w-[60vw] flex flex-col gap-[2vw]">
+        <h2 class="font-bold text-[#FF9600] text-center text-[2vw] letters-slide-infinite" id="marketTitle">Why PP is Sustainable ?</h2>
+       <p class="text-[1.2vw] w-[60vw]  font-semibold leading-[3vw] text-justify">Polypropylene (PP) is more sustainable than most other food-packaging materials such as bagasse, paper, PLA-bioplastics, or aluminium because it is lightweight, reusable, recyclable, and requires far less water and energy during production. In the Indian food ecosystem, most dishes are gravy-based, oily, or liquid in nature, and only PP containers can reliably hold hot curries and gravies without leaking, softening, or breaking down — which is a major drawback for bagasse, paper and PLA. Since PP can be reused multiple times while maintaining hygiene and strength, its carbon footprint per use becomes much lower than single-use “eco” alternatives, and it also fits well into India’s existing recycling network. This makes PP one of the most practical and truly sustainable options for real-world Indian food packaging. </p>
+
+        </div>
+        <img src="./assets/Images/pp-sustainable_page/man-image.webp" alt="man-with-question" class="w-[20vw] " />
+        
+      
+    </div>
+
+    
+    <!-- ***************************************Slide 3 end******************************************************************* -->
+    <!-- **************************************Slide 4 start******************************************************************** -->
+
+
+
+   <div class="slide-item  w-full h-[100vh] overflow-hidden" id="MARKING and ENGRAVING">
+
+      <div class="flex flex-col gap-[3vw]" style="font-family: 'Montserrat';">
+        <h2 class="font-bold text-[#FF9600] text-center text-[2vw] letters-slide-infinite" id="marketTitle">MARKING AND ENGRAVING</h2>
+        <div class="relative "  >
+        <img src="./assets/Images/marking-and-engraving-page/yellow-background.webp" alt="yellow-background" class="w-[80vw] relative"/>
+        <img src="./assets/Images/ttp_icons/food safe.gif" alt="food-safe-icon" class="w-[6vw] absolute bottom-[5.5vw] left-[3.8vw] ">
+           <p class=" text-[1vw] text-black font-semibold absolute bottom-[3.3vw] left-[4.7vw] ">Food safe</p>
+        <img src="./assets/Images/ttp_icons/pp.gif" alt="food-safe-icon" class="w-[6vw] absolute top-[3vw] left-[26vw] ">
+        <p class=" text-[1vw] text-black font-semibold absolute  top-[9.5vw] left-[28vw]  ">PP5</p>
+        <img src="./assets/Images/ttp_icons/microwave.gif" alt="food-safe-icon" class="w-[6vw] absolute bottom-[6vw] right-[26vw] ">
+        <p class=" text-[1vw] text-black font-semibold absolute text-center bottom-[3.3vw] right-[26.05vw]  ">Microwave <br> Safe</p>
+        <img src="./assets/Images/ttp_icons/winter.gif" alt="food-safe-icon" class="w-[6vw] absolute top-[3vw] right-[4.25vw] ">
+        <p class=" text-[1vw] text-black font-semibold absolute  top-[9.5vw] right-[4vw]  ">Freezer safe</p>
+          
+            <p class="absolute text-[.8vw] top-[2vw] left-[-3vw] w-[24vw] font-medium text-center leading-[1.9vw]" style="font-family: 'Montserrat';">
+              <span class="border border-none rounded-full bg-[#000000] text-white " style="padding: .5vw .9vw; margin-right: 1vw;">1</span>
+              It’s a no-brainer that the container made <br/> for storing food must be safe. If you’re not sure and would <br/> like to check on your containers, do look out for the fork <br/> and the fancy wine cup symbol. That will be your <br/> assurance. Sometimes, the symbol is also replaced with <br/> the words ‘Food Safe’ instead.</p>
+            <p class="absolute text-[.8vw] top-[17vw] left-[14vw] w-[30vw] font-medium text-center leading-[1.9vw]" style="font-family: 'Montserrat';">
+              <span class="border border-none rounded-full bg-[#000000] text-white " style="padding: .5vw .8vw; margin-right: 1vw;">2</span>
+              Polypropylene is the most durable and <br/> versatile plastic of all. It is commonly chosen as the plastic to produce <br/> reusable containers due to its ability to take on a higher temperature, is <br/> lightweight and tough. PP is also reusable, and multiple pieces of <br/> research have proven that PP does not leach harmful chemicals at all.</p>
+            <p class="absolute text-[.8vw] top-[2vw] left-[37vw] w-[27vw] font-medium text-center leading-[1.9vw]" style="font-family: 'Montserrat';">
+              <span class="border border-none rounded-full bg-[#000000] text-white " style="padding: .5vw .8vw; margin-right: 1vw;">3</span>
+              For meal-prep buffs, this should be the <br/> symbol to look out for! Often represented in squiggly lines <br/> (perhaps for the actual heat waves), this means that the container  <br/> is microwavable. It can take a few different forms but it is <br/> generally understood that squiggly lines mean it can be used in <br/> microwaves.(re heat purpose only)</p>
+            <p class="absolute text-[.8vw] top-[17vw] left-[59vw] w-[24vw] font-medium text-center leading-[1.9vw]" style="font-family: 'Montserrat';">
+              <span class="border border-none rounded-full bg-[#000000] text-white " style="padding: .5vw .8vw; margin-right: 1vw;">4</span>
+              Snowflake-looking symbol? <br/> That’ll mean that the container is freezer safe. Look for this  <br/>symbol when you’re thinking of storing some delicious <br/>leftovers in the freezer (18~c)</p>
+          
+        </div>
+      
+      </div>
+     
+    </div>
+
+    <!-- ***************************************Slide 4 end******************************************************************* -->
+    <!-- **************************************Slide 5 start******************************************************************** -->
+
+    <div class="sec-9 slide-item relative w-full h-[100vh] overflow-hidden" id=" AVAILABLE MARKET SIZE">
+      <h3 class="letters-slide-infinite" id="marketTitle">AVAILABLE MARKET SIZE</h3>
+      <div class="sec-9-grid">
+        <div class="sec-9-grid-item transition-transform duration-500 ease-out hover:scale-102 ">
+          <p class="sec-9-grid-item-title">Round Container</p>
+          <img src="assets/Images/market-size-page/round_info.svg" alt="round container" class="sec-9-item">
+        </div>
+        <div class="sec-9-grid-item transition-transform duration-500 ease-out hover:scale-102">
+          <p class="sec-9-grid-item-title">Rectangle Container</p>
+          <img src="assets/Images/market-size-page/rectangle_info.svg" alt="rectangle container" class="sec-9-item">
+        </div>
+        <div class="sec-9-vertical-container ">
+          <div class="sec-9-grid-item transition-transform duration-500 ease-out hover:scale-102">
+            <p class="sec-9-grid-item-title">Rs Container</p>
+            <img src="assets/Images/market-size-page/round_square_info.svg" alt="round square container" class="sec-9-item">
+          </div>
+          <div class="sec-9-grid-item transition-transform duration-500 ease-out hover:scale-102">
+            <p class="sec-9-grid-item-title">Sweet Box</p>
+            <img src="assets/Images/market-size-page/sweetbox_info.svg" alt="sweet box" class="sec-9-item">
+          </div>
+          <div class="sec-9-grid-item"></div>
+        </div>
+      </div>
+    </div>
+    <!-- **************************************Slide 5 end******************************************************************** -->
+         <!-- **************************************Slide 6 start******************************************************************** -->
+
+   <div class="slide-item overflow-hidden relative w-full h-100vw flex flex-col"  id="PRODUCTS" >
+
+      <!-- Main Heading -->
+      <h2 class="text-[#FF9600] font-bold text-center  letters-slide-infinite" id="marketTitle"
+        style="font-size: 2vw; margin-bottom: 6vw; font-family: montserrat;">
+        WHAT ARE THE PRODUCTS WE ARE PRODUCING
+      </h2>
+
+      
+          <div class="grid grid-cols-8 w-[90vw] mx-auto" style="gap: 1.5vw;  ">
+
+            <div
+              class=" product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-end justify-end cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '120ml  Round Container',
+        './assets/Images/slide_2/120_ml_round-popup.webp',
+        '2.3 GSM', 
+        '4.3 GSM', 
+        '2500 Nos'
+    )">
+              <img src="./assets/Images/slide_2/120_ml_round.webp" alt="120ml Round" class="object-contain mb-[0.5vw] ">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">120ml Round</p>
+            </div>
+
+            <div
+              class=" product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '250ml  Round Container',
+        './assets/Images/slide_2/250_ml_round-popup.webp',
+        '5.7 GSM', 
+        '5.8 GSM', 
+        '1000 Nos'
+    )">
+              <img src="./assets/Images/slide_2/250_ml_round.webp" alt="250ml Round" class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">250ml Round
+              </p>
+            </div>
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '250ml  Glass Round Container',
+        './assets/Images/slide_2/250_ml_glass_round-popup.webp',
+        '2.3 GSM', 
+        '8.5 GSM', 
+        '2500 Nos'
+    )">
+              <img src="./assets/Images/slide_2/250_ml_glass_round.webp" alt="250ml Glass Round"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">250ml
+                Glass<br />Round</p>
+            </div>
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '300ml  Round Container',
+        './assets/Images/slide_2/300_ml_round-popup.webp',
+        '5.70 GSM', 
+        '9.5 GSM', 
+        '1000 Nos'
+    )">
+              <img src="./assets/Images/slide_2/300_ml_round.webp" alt="300ml Round" class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">300ml Round</p>
+            </div>
+
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '500ml  Round Container',
+        './assets/Images/slide_2/500_ml_round-popup.webp',
+        '5.9 GSM', 
+        '12.5 GSM', 
+        '1000 Nos'
+    )">
+              <img src="./assets/Images/slide_2/500_ml_round.webp" alt="450ml Square Bottom"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                500ml Round</p>
+            </div>
+
+
+
+             <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        ' 500 gsm / 450ml  Square Bottom',
+        './assets/Images/slide_2/450_ml_square-popup.webp',
+        '2.3 GSM', 
+        '4.3 GSM', 
+        '1000 Nos'
+    )">
+              <img src="./assets/Images/slide_2/450_ml_square.webp" alt="750ml Rectangle"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium  items-center justify-center"
+                style="font-size: 0.7vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                500ml <span class="lowercase">gsm</span> / 450ml <br/> Container
+              </p>
+            </div>
+
+
+               <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '500ml  Container',
+        './assets/Images/slide_2/500_ml_square-popup.webp',
+        '5.7 GSM', 
+        '5.8 GSM', 
+        '1000 Nos'
+    )">
+              <img src="./assets/Images/slide_2/500_ml_square.webp" alt="500ml Round" class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.75vw; line-height: 1.1; font-weight: 600; padding: .5vw;">500ml <br/> Container</p>
+            </div>
+
+
+
+             <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '500ml  Rectangle Container',
+        './assets/Images/slide_2/500_ml_rectangle-popup.webp',
+        '10.5 GSM', 
+        '15 GSM', 
+        '600 Nos'
+    )">
+              <img src="./assets/Images/slide_2/500_ml_rectangle.webp" alt="750ml Round"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">500ml Rectangle</p>
+            </div>
+
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '750ml  Round Container',
+        './assets/Images/slide_2/750_ml_round-popup.webp',
+        '2.3 GSM', 
+        '4.3 GSM', 
+        '600 Nos'
+    )">
+              <img src="./assets/Images/slide_2/750_ml_round.webp" alt="500ml Square Bottom"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">750ml Round</p>
+            </div>
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '750ml  Rectangle Container',
+        './assets/Images/slide_2/750_ml_rectangle-popup.webp',
+        '9 GSM', 
+        '18 GSM', 
+        '600 Nos'
+    )">
+              <img src="./assets/Images/slide_2/750_ml_rectangle.webp" alt="250-gsm Sweet box"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                750ml Rectangle</p>
+            </div>
+
+
+             <div
+              class=" product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '250 GSM  Sweet box',
+        './assets/Images/slide_2/250_gms_sweetbox-popup.webp',
+        '11 GSM', 
+        '15 GSM', 
+        '600 Nos'
+    )">
+              <img src="./assets/Images/slide_2/250_gms_sweetbox.webp" alt="500-gsm Sweet box"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium  items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                250<span class="lowercase">gsm </span> <br />Sweet box</p>
+            </div>
+
+            <div
+              class=" product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        'TE 250 G  Sweet box',
+        './assets/Images/slide_2/250_gms_sweetbox_TE-popup.webp',
+        '10 GSM', 
+        '20 GSM', 
+        '600 Nos'
+    )">
+              <img src="./assets/Images/slide_2/250_gms_sweetbox_TE.webp" alt="500-gsm Sweet box"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                TE 250 G<br />Sweet box</p>
+            </div>
+
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '500 GSM  Sweet box',
+        './assets/Images/slide_2/500_gms_sweet_box-popup.webp',
+        '2.3 GSM', 
+        '4.3 GSM', 
+        '500 Nos'
+    )">
+              <img src="./assets/Images/slide_2/500_gms_sweet_box.webp" alt="1000ml Round"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium  items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                500 <span class="lowercase">gsm</span> <br/> Sweet box</p>
+            </div>
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        'TE 500 G  Sweet box',
+        './assets/Images/slide_2/500_gms_sweetbox_TE-popup.webp',
+        '18 GSM', 
+        '30 GSM', 
+        '500 Nos'
+    )">
+              <img src="./assets/Images/slide_2/500_gms_sweetbox_TE.webp" alt="1000ml Round"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                TE 500 G<br />Sweet box</p>
+            </div>
+
+
+             <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '1kg  Sweet box ',
+        
+        './assets/Images/slide_2/1kg_sweetbox-popup.webp',
+        '33 GSM', 
+        '41 GSM', 
+        '2500 Nos'
+    )">
+              <img src="./assets/Images/slide_2/1kg_sweetbox.webp" alt="1000ml Round"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                1kg <br/> Sweet box </p>
+            </div>
+            <!-- <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-lg transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '1kg Sweet box',
+        './assets/Images/slide_2/250_ml_glass_round.png',
+        '33 GSM', 
+        '41 GSM', 
+        '2500 Nos'
+    )">
+              <img src="./assets/Images/slide_2/1kg_sweetbox.webp" alt="1000ml Round"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw;">
+                1kg<br />Sweet box</p>
+            </div> -->
+
+
+            <div
+              class="product-card bg-white rounded-[1vw] border-[0.2vw] border-[#FBB24A] flex flex-col items-center justify-end  cursor-pointer hover:shadow-2xl transition-shadow"
+              style=" width: 8vw; height: 8vw;" onclick="openProductModal(
+        '1000ml  Round Container',
+        './assets/Images/slide_2/1000_ml_round-popup.webp',
+        '2.3 GSM', 
+        '4.3 GSM', 
+        '2500 Nos'
+    )">
+              <img src="./assets/Images/slide_2/1000_ml_round.webp" alt="500ml Rectangle"
+                class="object-contain mb-[0.5vw]">
+              <p class="text-white uppercase bg-[#FBB24A] w-[100%] h-[2.5vw] rounded-b-[.5vw] text-center font-medium flex items-center justify-center"
+                style="font-size: 0.8vw; line-height: 1.1; font-weight: 600; padding: .5vw; ">
+                1000ml Round</p>
+            </div>
+
+           
+
+           
+          </div>
+       
+
+      
+      
+
+    </div>
+        <!-- **************************************Slide 6 end******************************************************************** -->
+
+    <!-- **************************************Slide 7 start******************************************************************** -->
+<div class="slide-item  w-screen h-screen flex items-center justify-start! p-0 m-0 bg-gray-50" id="TYPES OF BRANDING">
+    
+    <!-- Left Sidebar - Carousel -->
+    <div class="flex h-[100vh] w-[50vw] gap-0 bg-white">
+        
+        <!-- Slide 1 -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+             style="background-color: #FFFCF7;">
+             <div class="absolute z-20 right-[-1.9vw] top-1/4 -translate-y-1/2
+             w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#FFFCF7]"
+             >
+             
+        </div>
+
+            <div class="slide-icon absolute flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
+                <!-- <div class="text-[2vw] mb-[1vw]">🎨</div> -->
+                <!-- <h3 class="text-[0.7vw] font-semibold text-gray-700 text-center px-[0.5vw] leading-tight">Premium <br/> Look & Finish </h3> -->
+                 <img src="./assets/Images/image-slide-page/dots-icon.svg" alt="dots-icon" class="w-[2vw]"/>
+            </div>
+            <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+             style="background-color: #FFEFD7; ">
+             <div class="absolute z-20 right-[-1.9vw] top-1/4 -translate-y-1/2
+             w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#FFEFD7]"
+             >
+        </div>
+            <div class="slide-icon absolute flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
+                <img src="./assets/Images/image-slide-page/brand-icon.svg" alt="brand-icon" class="w-[2vw]"/>
+            </div>
+            <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+             style="background-color: #FFE8C7; ">
+             <div class="absolute z-20 right-[-1.9vw] top-1/4 -translate-y-1/2
+             w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#FFE8C7]"
+             >
+        </div>
+            <div class="slide-icon absolute flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
+               <img src="./assets/Images/image-slide-page/customize-icon.svg" alt="customize-icon" class="w-[2vw]"/>
+            </div>
+            <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+             style="background-color: #FFE4B8;">
+             <div class="absolute z-20 right-[-1.9vw] top-1/4 -translate-y-1/2
+             w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#FFE4B8]"
+             >
+        </div>
+            <div class="slide-icon absolute flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
+                <img src="./assets/Images/image-slide-page/food-icon.svg" alt="food-icon" class="w-[2vw]"/>
+            </div>
+            <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+            </div>
+        </div>
+
+        <!-- Slide 5 - Light Orange -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+             style="background-color: #fdcf86; ">
+             <div class="absolute z-20 right-[-1.8vw] top-1/4 -translate-y-1/2
+             w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#fdcf86]"
+             >
+        </div>
+            <div class="slide-icon absolute flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
+                <img src="./assets/Images/image-slide-page/cost-effective-icon.svg" alt="cost-effective-icon" class="w-[2vw]"/>
+            </div>
+            <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+            </div>
+        </div>
+
+        <!-- Slide 6 - Medium Orange -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+             style="background-color: #FDC765; ">
+             <div class=" triangle-shadow absolute z-20 right-[-1.8vw] top-1/4 -translate-y-1/2
+             w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#FDC765]"
+             >
+        </div>
+            <div class="slide-icon absolute flex flex-col items-center justify-center opacity-100 transition-opacity duration-300">
+                <img src="./assets/Images/image-slide-page/recycle-icon.svg" alt="recycle-icon" class="w-[2vw]"/>
+            </div>
+            <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col  gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+            </div>
+        </div>
+
+        <!-- Slide 7 - Dark Orange -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+             style="background-color: #FBBE4E;">
+             <div class="absolute z-20 right-[-1.9vw] top-1/4 -translate-y-1/2
+             w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#FBBE4E] "
+             >
+        </div>
+            <div class="slide-icon absolute flex flex-col  items-center justify-center opacity-100 transition-opacity duration-300">
+                <img src="./assets/Images/image-slide-page/scartch-icon.svg" alt="scartch-icon" class="w-[2vw]"/>
+            </div>
+            <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+            </div>
+        </div>
+        
+
+
+        <!-- Slide 8 - Darkest Orange -->
+        <div class="carousel-slide group cursor-pointer transition-all duration-500 flex-shrink-0 w-[6vw] h-[100vh] flex items-center justify-center relative" 
+     style="background-color: #FBB24A; ">
+
+    <!-- TRIANGLE SHAPE (added) -->
+    <div class="absolute z-20 right-[-1.9vw] top-1/4 -translate-y-1/2 
+                w-0 h-0 
+                border-t-[2vw] border-t-transparent
+                border-b-[2vw] border-b-transparent
+                border-l-[2vw] border-l-[#FBB24A]  ">
+                 <div class="slide-icon absolute flex flex-col left-[-6vw] items-center justify-center opacity-100 transition-opacity duration-300">
+        <img src="./assets/Images/image-slide-page/sparkle-icon.svg" alt="sparkle-icon" class="w-[2vw]"/>
+    </div>
+    </div>
+
+   
+
+    <div class="slide-content opacity-0 transition-opacity duration-300 flex flex-col gap-[2vw] items-center justify-center h-full px-[3vw] text-center pointer-events-none">
+    </div>
+        </div>
+
+        
+
+    </div>
+
+    <!-- Right Section - Title and Content -->
+    <div class="w-[50vw] h-[100vh] flex flex-col items-end justify-center bg-white px-[5vw]" style="padding-right: 4vw;">
+      <div id="branding-text" class="transition-all duration-500">
+        <div class="text-start">
+            <h1 class="text-[4vw] font-bold text-[#FF9600] leading-tight mb-[2vw] ">
+                Types of <br /> Branding
+            </h1>
+            <p class="text-[3vw] font-bold text-black">IML Pro</p>
+        </div>
+      </div>
+        
+    </div>
+
+</div>
+
+    <!-- **************************************Slide 7 end******************************************************************** -->
+    <!-- **************************************Slide 8 start******************************************************************** -->
+
+    <div class="slide-item relative w-full h-[100vh] overflow-hidden flex items-center gap-[8vw]" style="font-family: 'Montserrat'; " id="SCREEN PRINTING">
+
+
+    <div class="w-[90vw] flex flex-col gap-[2vw]">
+      <h2 class="font-bold text-[#FF9600] text-center text-[2vw] letters-slide-infinite ">SCREEN PRINTING</h2>
+      <p class="text-[1.2vw] w-[90vw]  font-medium leading-[3vw] text-center">Screen printing is one the most common print technology in plastic container decoration. It’s a technique used to apply information such as size, weight & volume, brand details, durability & legibility, nutritional details, expiration and production dates, symbols and storage instructions onto the surface of plastic packaging such as bottles, jars, jerrycans and buckets.​ </p>
+
+      <div class="flex gap-[2vw] justify-center h-[20vw] text-[1vw]">
+        <!-- left icons  -->
+         <div class="flex flex-col gap-[1vw] justify-start" >
+             <div class="flex items-center gap-[1vw]  transition-transform duration-500 ease-out hover:!scale-110" style="margin-top: 3vw;">
+                 <img src="./assets/Images/screen-printing/cheaper-icon.webp" alt="cheaper-icon" class="w-[3vw]"/>
+                 <p class="font-semibold ">Cheaper</p>
+             </div>
+             <div class="flex items-center gap-[1vw] transition-transform duration-500 ease-out hover:!scale-110">
+                 <img src="./assets/Images/screen-printing/lesser-lead-time.webp" alt="lesser-lead-time" class="w-[3vw] "/>
+                 <p class="font-semibold ">Lesser lead time</p>
+             </div>
+                
+             <div class="flex items-center gap-[1vw] transition-transform duration-500 ease-out hover:!scale-110"> 
+                  <img src="./assets/Images/screen-printing/moq-icon.webp" alt="min-moq" class="w-[3vw]"/>
+                 <p class="font-semibold">Min MOQ </p>
+             </div>
+         </div>
+
+         <!-- center circle  -->
+         <div class="w-[25vw] relative">
+            <img src="./assets/Images/screen-printing/pros.webp" alt="pros" class="w-[15vw]"/>
+             <img src="./assets/Images/screen-printing/cons.webp" alt="pros" class="w-[15vw] absolute top-[5vw] right-[0vw]"/>
+         </div>
+
+         <!-- right icons  -->
+         
+             <div class="flex flex-col gap-[1vw] justify-end" style="padding-left: 6vw;">
+             <div class="flex items-center gap-[1vw] transition-transform duration-500 ease-out hover:!scale-110">
+                 <img src="./assets/Images/screen-printing/not-scratch-resistance.webp" alt="cheaper-icon" class="w-[3vw]"/>
+                 <p class="font-semibold">Not scratch resistance</p>
+             </div>
+             <div class="flex items-center gap-[1vw] transition-transform duration-500 ease-out hover:!scale-110">
+                 <img src="./assets/Images/screen-printing/limited-color-options.webp" alt="lesser-lead-time" class="w-[3vw]"/>
+                 <p class="font-semibold">Limited color options</p>
+             </div>
+                
+             <div class="flex items-center gap-[1vw] transition-transform duration-500 ease-out hover:!scale-110"> 
+                  <img src="./assets/Images/screen-printing/traditional-old-process.webp" alt="min-moq" class="w-[3vw]"/>
+                 <p class="font-semibold">Traditional old process</p>
+             </div>
+             <div class="flex items-center gap-[1vw] transition-transform duration-500 ease-out hover:!scale-110"> 
+                  <img src="./assets/Images/screen-printing/less-design-ability.webp" alt="min-moq" class="w-[3vw]"/>
+                 <p class="font-semibold">Less design ability</p>
+             </div>
+         
+         </div>
+      </div>
+    </div>
+      
+        
+      
+ </div>
+
+
+    <!-- ***************************************Slide 8 end******************************************************************* -->
+  
+    <!-- **************************************Slide 9 start******************************************************************** -->
+
+    <div class="slide-item relative w-full h-[100vh] overflow-hidden flex items-center gap-[8vw]" style="font-family: 'Montserrat'; " id="CERTIFICATIONS">
+
+
+    <div class="w-[90vw] flex flex-col gap-[3vw]">
+      <h2 class="font-bold text-[#FF9600] text-center text-[2vw] letters-slide-infinite">WHAT ARE THE CERTIFICATIONS WE ARE HAVING</h2>
+      <div class="flex gap-[2vw] justify-end " style="margin-right: 6vw;">
+        <img src="./assets/Images/certification-page/certificate-1.webp" alt="certificate-1" class="w-[20vw] h-[27vw] cursor-pointer"/>
+         <img src="./assets/Images/certification-page/certificate-2.webp" alt="certificate-1" class="w-[20vw] h-[27vw] cursor-pointer"/>
+          <img src="./assets/Images/certification-page/certificate-3.webp" alt="certificate-1" class="w-[20vw] h-[27vw] cursor-pointer"/>
+      </div>
+      <img src="./assets/Images/certification-page/women-img.webp" alt="women" class="absolute bottom-0 left-[0] w-[30vw]"/>
+      
+    </div>
+ </div>
+
+    <!-- ***************************************Slide 9 end******************************************************************* -->
+    <!-- **************************************Slide 10 start******************************************************************** -->
+
+    <div class="slide-item relative w-full h-[100vh] overflow-hidden" id="SALES PROCESS">
+
+      <div class="w-[90vw] h-[full]" style="font-family: 'Montserrat';">
+        <h2 class="font-bold text-[#FF9600] text-[2vw] letters-slide-infinite">Our Sales Process</h2>
+        <p class="font-semibold  text-[1.4vw]" style="margin-top: 2vw;">Basic Etiquettes </p>
+
+        <div class="flex gap-[4vw] font-semibold text-[1.5vw] justify-center items-center text-center " style="margin-top: 2vw;">
+
+
+          <div class=" flex flex-col items-center gap-[2vw]">
+            
+            <img src="./assets/Images/ttp_icons/call-setting.gif" alt="" class="w-[5vw] " >
+            <img src="./assets/Images/our-sales-process/step-1.webp" alt="" class="w-[15vw]" style="margin-left: 2vw;">
+            <p class="font-medium">Greeting </br> customer </br> on call</p>
+          </div>
+
+
+         <div class="flex flex-col items-center gap-[2vw]">
+           
+            <img src="./assets/Images/ttp_icons/idea.gif" alt="" class="w-[5vw]">
+            <img src="./assets/Images/our-sales-process/step-2.webp" alt="" class="w-[15vw] " style="margin-left: 2vw;">
+            <p class="font-medium">Understanding </br> their </br> requirement</p>
+         </div>
+
+         <div class="flex flex-col items-center gap-[2vw]">
+             
+             <img src="./assets/Images/ttp_icons/discount.gif" alt="" class="w-[5vw]">
+             <img src="./assets/Images/our-sales-process/step-3.webp" alt="" class="w-[15vw] " style="margin-left: 2vw;">
+             <p class="font-medium">Analysis their </br> purchase quantity </br> and brand</p>
+         </div>
+
+         
+       
+        
+      </div>
+
+        <div class="flex flex-col  items-center absolute bottom-[-3vw] left-[50%] " style="margin-top: vw; transform: translate(-50%);">
+         <img src="./assets/Images/our-sales-process/flight-icon.svg" alt="flight-icon" class="w-[2vw]"/>
+          <div class="flex flex-col items-center  " style=" margin: 1vw 0;">
+                  <div class="relative w-[.1vw] h-[5vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+            </div>
+        </div>
+     
+
+      </div>
+    </div>
+   
+       <!-- ***************************************Slide 10 end******************************************************************* -->
+
+
+          <!-- <div class="slide-item relative w-full h-[100vh] overflow-hidden" id="">
+
+      <div class="w-[90vw] h-[full] " >
+      
+
+    
+
+        <div class="flex flex-col  items-center absolute bottom-[8vw] left-[50%] " style="margin-top: vw; transform: translate(-50%);">
+         <img src="./assets/Images/our-sales-process/flight-icon.svg" alt="flight-icon" class="w-[30vw]"/>
+          <div class="flex flex-col items-center absolute bottom-[-10vw] " >
+                  <div class="relative w-[.06vw] h-[15vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>
+            </div>
+        </div>
+     
+
+      </div>
+    </div>
+    -->
+   
+   
+       <!-- **************************************Slide 11 start******************************************************************** -->
+<div class="slide-item relative w-full h-[100vh] overflow-hidden" id="IML PROCESS">
+
+      <div class="w-[90vw] h-[full] flex gap-[5vw]" style="font-family: 'Montserrat';">
+        <div class="flex flex-col justify-center items-center leading-[3vw] w-[30vw]">
+           <h2 class="font-bold text-[#FF9600] text-[4vw]">IML</h2>
+           <p class="font-semibold  text-[2vw]">Process </p>         
+        </div>
+        <div class="flex gap-[2vw]">
+           <div class="flex flex-col gap-[2vw]">
+             <div class="step-image-wrapper absolute top-[5.3vw]">
+               <img src="./assets/Images/our-sales-process/step-1-circle.webp" alt="step-1" class="w-[8vw]">
+             </div>
+             <div class="step-image-wrapper absolute top-[14.3vw]">
+               <img src="./assets/Images/our-sales-process/step-2-circle.webp" alt="step-2" class="w-[8vw]">
+             </div>
+             <div class="step-image-wrapper absolute top-[23.5vw]">
+               <img src="./assets/Images/our-sales-process/step-3-circle.webp" alt="step-3" class="w-[8vw]">
+             </div>
+             <div class="step-image-wrapper absolute top-[32.3vw]">
+               <img src="./assets/Images/our-sales-process/step-4-circle.webp" alt="step-4" class="w-[8vw]">
+             </div>
+        </div>
+        <div class="absolute top-0 left-[50%] " style="transform: translate(-50%);">  
+             <div class=" w-[.1vw] h-[100vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>          
+        </div>
+
+
+      <div class="absolute top-[8vw] left-[50%] flex  items-center bg-[white] justify-center w-[1.5vw] h-[1.4vw] rounded-full border-[.1vw] border-[#FF9600] shadow-md" style="transform: translate(-50%);">
+           <div class="w-[.5vw] h-[.5vw] bg-[#FF9600] rounded-full"></div>
+      </div>
+       <div class="absolute top-[17vw] left-[50%] flex items-center bg-[white] justify-center w-[1.5vw] h-[1.4vw] rounded-full border-[.1vw] border-[#FF9600] shadow-md" style="transform: translate(-50%);">
+           <div class="w-[.5vw] h-[.5vw] bg-[#FF9600] rounded-full"></div>
+      </div>
+       <div class="absolute top-[26vw] left-[50%] flex items-center bg-[white] justify-center w-[1.5vw] h-[1.4vw] rounded-full border-[.1vw] border-[#FF9600] shadow-md" style="transform: translate(-50%);">
+           <div class="w-[.5vw] h-[.5vw] bg-[#FF9600] rounded-full"></div>
+      </div>
+       <div class="absolute top-[35vw] left-[50%] flex items-center bg-[white] justify-center w-[1.5vw] h-[1.4vw] rounded-full border-[.1vw] border-[#FF9600] shadow-md" style="transform: translate(-50%);">
+           <div class="w-[.5vw] h-[.5vw] bg-[#FF9600] rounded-full"></div>
+      </div>
+
+        <div class="font-medium flex flex-col gap-[8vw] text-[1vw]" style="font-family: 'Montserrat'; ">
+           <p class="absolute top-[7vw] left-[53vw]">ART WORK to be  Adapted in KLD (Key line diagram) from <br/> in CDR, AI File + PDF for our referral</p>
+            <p class="absolute top-[17vw] left-[53vw]">Send to our team for order processing</p>
+            <p class="absolute top-[24vw] left-[53vw]">Once our team send the final file from label maker for approval <br/> get it approved from customer and post in group with quantity <br/> for order confirmation</p>
+            
+              <div class="lead-time-11 absolute top-[32vw] left-[53vw] flex items-center gap-[1vw] font-[Montserrat]">
+                   <div class="lead-time-11-1 font-semibold text-[1.2vw] leading-[2vw]">
+                     Lead time
+                   </div>
+                 <img src="./assets/Images/our-sales-process/Route-img.svg" alt="route-img" class="w-[4vw] lead-time-11-3"/>
+                   <div class=" lead-time-11-2 flex flex-col gap-[3vw] relative absolute left-[-1.5vw]">
+                     <div class=" flex items-center gap-[1vw] relative">
+                       <div class="bg-[#979797] text-white rounded-full px-[1vw] py-[0.2vw] text-[0.9vw]" style="padding: .4vw .5vw;">
+                         New
+                       </div>
+                       <span class="text-[1vw] font-medium">
+                         6 Weeks from date of artwork confirmation
+                       </span>
+                     </div>
+                   
+                     <div class=" flex items-center gap-[1vw] relative">
+                       <div class="bg-[#979797] text-white rounded-full px-[1vw] py-[0.2vw] text-[0.9vw]" style="padding: .4vw .5vw;">
+                         Existing
+                       </div>
+                       <span class="text-[1vw] font-medium">
+                         5 Weeks from date of artwork confirmation
+                       </span>
+                     </div>
+                   </div>
+</div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+
+       <!-- ***************************************Slide 11 end******************************************************************* -->
+       <!-- **************************************Slide 12 start******************************************************************** -->
+   
+   
+     <div class="slide-item relative w-full h-[100vh] overflow-hidden" id="SCREEN PRINTING PROCESS">
+
+      <div class="w-[90vw] h-[full] flex justify-end " style="font-family: 'Montserrat';">
+        
+        <div class="flex gap-[2vw]">
+           <div class="flex flex-col gap-[2vw]">
+          <img src="./assets/Images/our-sales-process/step-1-gray.webp" alt="step-1" class="w-[8vw] absolute top-[7vw] left-[53vw]">
+          <img src="./assets/Images/our-sales-process/step-2-gray.webp" alt="step-2" class="w-[8vw] absolute top-[19vw] left-[53vw]">
+          <img src="./assets/Images/our-sales-process/step-3-gray.webp" alt="step-3" class="w-[8vw] absolute top-[31vw] left-[53vw]">
+        </div>
+        <div class="absolute top-0 left-[50%] " style="transform: translate(-50%);">  
+             <div class=" w-[.1vw] h-[100vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>          
+        </div>
+
+
+      <div class="absolute top-[10vw] left-[50%] flex  items-center bg-[white] justify-center w-[1.5vw] h-[1.4vw] rounded-full border-[.1vw] border-[#FF9600] shadow-md" style="transform: translate(-50%);">
+           <div class="w-[.5vw] h-[.5vw] bg-[#FF9600] rounded-full"></div>
+      </div>
+       <div class="absolute top-[22vw] left-[50%] flex items-center bg-[white] justify-center w-[1.5vw] h-[1.4vw] rounded-full border-[.1vw] border-[#FF9600] shadow-md" style="transform: translate(-50%);">
+           <div class="w-[.5vw] h-[.5vw] bg-[#FF9600] rounded-full"></div>
+      </div>
+       <div class="absolute top-[34vw] left-[50%] flex items-center bg-[white] justify-center w-[1.5vw] h-[1.4vw] rounded-full border-[.1vw] border-[#FF9600] shadow-md" style="transform: translate(-50%);">
+           <div class="w-[.5vw] h-[.5vw] bg-[#FF9600] rounded-full"></div>
+      </div>
+       
+
+        <div class="font-medium flex flex-col gap-[8vw] text-[1vw]" style="font-family: 'Montserrat'; ">
+           <p class="absolute top-[10vw] right-[53vw]">Artwork to be given in PDF only</p>
+             <ol class="absolute top-[20vw] text-right right-[53vw]">
+              <li>Coordinate with team for Artwork approval</li>
+              <li>Once Artwork approval received from team <br/>
+                             get it approved with customer</li>
+            </ol>
+            
+              <div class=" lead-time-12 absolute top-[31vw] right-[53vw] flex items-center gap-[1vw] font-[Montserrat]">
+                   <!-- Left title -->
+                  
+               
+                   <!-- Connector and branches --> 
+                   <div class="lead-time-12-1 flex flex-col gap-[3vw] relative  absolute left-[1vw]">
+                     <!-- Top branch -->
+                     <div class="flex items-center justify-end gap-[1vw] relative">
+                      
+                       <span class="text-[1vw] font-medium">
+                         10-15 Days from date of approval
+                       </span>
+                        <div class="bg-[#979797] text-right text-white rounded-full px-[1vw] py-[0.2vw] text-[0.9vw]" style="padding: .4vw .5vw;">
+                         New
+                       </div>
+                     </div>
+                   
+                     <!-- Bottom branch -->
+                     <div class="flex items-center gap-[1vw] relative">
+                       
+                       <span class="text-[1vw] font-medium">
+                         10-15 Days from date of approval
+                       </span>
+                       <div class="bg-[#979797] text-white rounded-full px-[1vw] py-[0.2vw] text-[0.9vw]" style="padding: .4vw .5vw;">
+                         Existing
+                       </div>
+                     </div>
+                   </div>
+                     <img src="./assets/Images/our-sales-process/route-left-img.svg" alt="route-img" class="w-[4vw] lead-time-12-2"/>
+                    <div class="lead-time-12-3 font-semibold text-[1.2vw] leading-[2vw]">
+                     Lead time
+                   </div>
+              </div>
+        </div>
+        </div>
+
+        <div class="flex flex-col justify-center items-center leading-[3vw] w-[30vw]"  >
+           <h2 class="font-bold text-[#FF9600] text-[3vw]">Screen Printing</h2>
+           <p class="font-semibold  text-[2vw]">Process </p>         
+        </div>
+
+      </div>
+    </div>
+       <!-- ***************************************Slide 12 end******************************************************************** -->
+       <!-- **************************************Slide 13 start******************************************************************** -->
+
+
+
+
+<!-- Add this line before the slide-item -->
+
+
+<div id="backdrop"></div>
+  <div class="slide-item relative w-full h-[100vh] overflow-hidden" id="Question">
+        
+        <div class="w-[90vw] h-[full] flex gap-[5vw]" style="font-family: 'Montserrat';">
+            
+            <!-- Decorative Top Line -->
+            <div class="absolute top-0 left-[50%] float-swing" style="transform: translate(-50%);">  
+                <div class="w-[.1vw] h-[4vw] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[repeating-linear-gradient(to_bottom,black_0,black_.4vw,transparent_.4vw,transparent_.8vw)]"></div>          
+            </div>
+
+            <!-- Title Image -->
+            <img src="./assets/Images/final-page/lets-go-for-the-final-session.webp" alt="lets-go-for-the-final-session" class="float-swing w-[30vw] absolute top-[3vw] left-[49.5%]" style="transform: translate(-50%);"/>
+
+            <!-- FORM CONTAINER -->
+            <div id="formContainer" class="absolute w-[60vw]">
+                
+                <div id="formBox">
+                    
+                    <!-- Heading -->
+                    <h2 class="text-[1.5vw] font-medium text-black mb-[2vw]" style="font-family: 'poppins';">
+                        Enter your Details
+                    </h2>
+
+                    <!-- Form -->
+                    <form id="detailsForm" class="flex flex-col gap-[2vw]">
+                        
+                        <div class="flex justify-between gap-[2vw]" style="padding: 1vw 0;">
+
+                            <!-- Employee Name -->
+                            <div class="w-[20vw] flex flex-col gap-[1vw]">
+                                <label class="text-[.9vw] font-semibold text-black" style="font-family: 'poppins';">
+                                    Employee Name
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="employeeName"
+                                    placeholder="Enter your name"
+                                    class="w-full border-[.1vw] border-[#FBB24A] rounded-[0.6vw] text-[.85vw] placeholder-gray-400 focus:outline-none focus:border-[#FF9600] "
+                                    style="font-family: 'Montserrat'; background-color: #FFFCF7; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: .7vw 1.5vw;"
+                                    required
+                                >
+                                <div class="error" id="nameError"></div>
+                            </div>
+
+                            <!-- Designation -->
+                            <div class="w-[20vw] flex flex-col gap-[1vw]">
+                                <label class="text-[.9vw] font-semibold text-black" style="font-family: 'poppins';">
+                                    Designation
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="designation"
+                                    placeholder="Enter your Designation"
+                                    class="w-full border-[.1vw] border-[#FBB24A] rounded-[0.6vw] text-[.85vw] placeholder-gray-400 focus:outline-none focus:border-[#FF9600] "
+                                    style="font-family: 'Montserrat'; background-color: #FFFCF7; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: .7vw 1.5vw;"
+                                    required
+                                >
+                                <div class="error" id="designationError"></div>
+                            </div>
+
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit"
+                            id="submitBtn"
+                            class="mt-[1vw] w-[20vw] font-medium bg-[#FBB24A] hover:bg-[#FF9600] text-white text-[1vw] rounded-full "
+                            style="font-family: 'poppins'; box-shadow: 0 4px 15px rgba(251, 178, 74, 0.3); margin: 0 auto; padding: .9vw 1.5vw; cursor: pointer;"
+                        >
+                            Let's Go
+                        </button>
+
+                        <div class="error" id="formError"></div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+ 
+
+
+
+
+
+
+
+
+ 
+    <!-- QUIZ SCREEN -->
+    <div class="full-screen " id="quizScreen" style="background: url(./assets/Images/Home_Slide/Background_img.png);">
+        <!-- Left Side - Questions -->
+        <div class="w-[70%] rounded-lg overflow-y-auto p-[2vw] shadow-[0_-6px_10px_rgba(0,0,0,0.15),-6px_0_10px_rgba(0,0,0,0.12),6px_0_10px_rgba(0,0,0,0.12)]" style="background: rgba(255, 255, 255, 0.7); margin: 5vw 0 3vw; margin-bottom: 5vw;">
+            <div class="mb-[2vw] absolute top-0 left-0 w-[100vw] flex justify-between items-center bg-[#fef4e7] shadow-[0_4px_10px_rgba(0,0,0,0.1)]"  style="padding: 1.5vw 4vw;"> 
+                  <div id="userInfo" class="text-[2vw] text-black font-semibold"></div>
+                  <img src="./assets/TTP_Logo.png" alt="Logo" class="w-[6vw] h-[2vw]"/>
+                   <!-- Timer -->
+            <div class="text-[0.85vw] flex flex-col items-center justify-center text-gray-600 text-center mt-[1vw]">
+                <p>Completed in: <br/> <span id="timer" class="font-regular text-[1.5vw] text-black" style="font-family: 'Montserrat';">00:00</span></p>
+            </div>
+            
+            </div>
+            <div class="" style="padding: 3vw; ">
+               <h1 class="text-[1.5vw] font-semibold text-black mb-[0.5vw] " style="font-family: 'Montserrat';">Answer the following Questions</h1>
+            <form id="quizForm" class="space-y-[1.5vw]">
+                <div id="questionsContainer"></div>
+              
+                 <button 
+                    type="submit" 
+                    class="w-[15vw] font-semibold bg-[#FBB24A] hover:bg-[#FF9600] text-white text-[1vw] rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 mt-[2vw]" 
+                    style="padding: .5vw; box-shadow: 0 4px 15px rgba(251, 178, 74, 0.3);"
+                >
+                    Submit
+                </button>
+            </form>
+            </div>
+           
+        </div>
+
+        <!-- Right Side - Stats -->
+        <div class="w-[30%] h-full flex flex-col items-center justify-center gap-[2.5vw] p-[2vw] " style="margin-top: 1vw;">
+            <!-- Total Questions -->
+           <!-- Total Questions -->
+<div class="text-center flex flex-col items-center">
+    <h3 class="text-[0.9vw] font-medum text-black mb-[1vw]" style="font-family: 'Montserrat';">Total Questions</h3>
+
+    <div class="relative w-[6vw] h-[6vw] flex items-center justify-center">
+
+        <svg id="totalProgressSvg" class="w-full h-full" viewBox="0 0 36 36">
+
+            <!-- Background -->
+            <circle
+                cx="18" cy="18" r="15.915"
+                fill="none"
+                stroke="#dcdcdc"
+                stroke-width="3.5"
+            ></circle>
+
+            <!-- Progress -->
+            <circle
+                id="totalProgressCircle"
+                cx="18" cy="18" r="15.915"
+                fill="none"
+                stroke="#FF9600"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                transform="rotate(-90 18 18)"
+            ></circle>
+        </svg>
+
+        <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-[3vw] font-bold text-[#FBB24A]" id="totalQuestionsCount">0</span>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Answered -->
+<div class="text-center flex flex-col items-center">
+    <h3 class="text-[0.9vw] font-medium text-black mb-[1vw]" style="font-family: 'Montserrat';">Answered Question</h3>
+
+    <div class="relative w-[6vw] h-[6vw] flex items-center justify-center">
+
+        <svg class="w-full h-full" viewBox="0 0 36 36">
+            
+            <!-- Background Circle -->
+            <circle
+                cx="18" cy="18" r="15.915"
+                fill="none"
+                stroke="#dcdcdc"
+                stroke-width="3.5"
+            ></circle>
+
+            <!-- Dynamic Progress (GREEN) -->
+            <circle
+                id="answeredProgressCircle"
+                cx="18" cy="18" r="15.915"
+                fill="none"
+                stroke="#00AC42"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                transform="rotate(-90 18 18)"
+            ></circle>
+        </svg>
+
+        <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-[3vw] font-bold text-[#22C55E]" id="answeredCount">0</span>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Pending -->
+<!-- Pending -->
+<div class="text-center flex flex-col items-center">
+    <h3 class="text-[0.9vw] font-medium text-black mb-[1vw]" style="font-family: 'Montserrat';">Pending</h3>
+
+    <div class="relative w-[6vw] h-[6vw] flex items-center justify-center">
+
+        <svg id="pendingProgressSvg" class="w-full h-full" viewBox="0 0 36 36">
+            <!-- Background Circle -->
+            <circle
+                cx="18"
+                cy="18"
+                r="15.915"
+                fill="none"
+                stroke="#dcdcdc"
+                stroke-width="3.5"
+            ></circle>
+
+            <!-- Dynamic Progress -->
+            <circle
+                id="pendingProgressCircle"
+                cx="18"
+                cy="18"
+                r="15.915"
+                fill="none"
+                stroke="#FF0000"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                transform="rotate(-90 18 18)"
+            ></circle>
+        </svg>
+
+        <!-- Center Number -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-[2.5vw] font-bold text-[#EF4444]" id="pendingCount">0</span>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+           
+        </div>
+    </div>
+<!-- RESULTS SCREEN -->
+<div class="full-screen" id="resultsScreen" >
+    <div class="relative rounded-[2vw] shadow-2xl p-[4vw] w-[65vw] h-[30vw] text-center " style="border: 0.2vw solid #FBB24A; background: url('./assets/Images/final-page/popup-image-bg.webp'); background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+     ">
+  
+  <div class="flex justify-center text-left" style="margin-top: 4vw;">
+
+     <button
+    id="closeResultsBtn"
+    type="button"
+    class="absolute top-[1vw] right-[1vw] w-[2vw] h-[2vw] rounded-full bg-white/90 text-black text-[1.2vw] font-bold flex items-center justify-center shadow-md hover:bg-[#FBB24A] hover:text-white transition cursor-pointer"
+    aria-label="Close results"
+  >
+    ×
+  </button>
+ <!-- Dynamic Emoji & Title -->
+  <div class="relative w-[12vw] h-[12vw] flex items-center justify-center" style="margin-right: 2vw;">
+                <svg class="w-full h-full" viewBox="0 0 120 120" style="transform: rotate(-90deg);">
+                    <!-- Background Circle -->
+                    <circle
+                        cx="60" cy="60" r="50"
+                        fill="none"
+                        stroke="#e5e7eb"
+                        stroke-width="12"
+                    ></circle>
+                    <!-- Progress Circle (Dynamic) -->
+                    <circle
+                        id="scoreCircle"
+                        cx="60" cy="60" r="50"
+                        fill="none"
+                        stroke="#00AC42"
+                        stroke-width="12"
+                        stroke-linecap="round"
+                        stroke-dasharray="0 314"
+                        style="transition: stroke-dasharray 1s ease-out, stroke 0.5s ease;"
+                    ></circle>
+                </svg>
+                <!-- Center Content -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <img id="resultEmoji" class="w-[6vw] h-[6vw]" alt="Result Emoji" />
+
+                </div>
+            </div>
+        <!-- 3D Gradient Vertical Line -->
+<div class="w-[1vw] h-[10vw] bg-gradient-to-r from-gray-600 via-gray-500 to-gray-400/30 rounded-full shadow-[2px_0px_6px_rgba(0,0,0,0.2)]">
+</div>
+        <div class="flex flex-col gap-3vw  " style="padding-left: 2vw;" >
+          <div class="flex flex-col ">
+             <h1 class="text-[2.5vw] font-medium text-black mb-[0.5vw]" id="resultTitle">Good Job!</h1>
+        <p class="text-[1.3vw] font-medium text-black mb-[2vw]" id="resultSubtitle">You Are Amazing</p>
+          </div>
+       
+
+        <!-- Score -->
+        <div class="mb-[2.5vw] flex ">
+            <p class="text-[2vw] font-medium text-black mb-[0.5vw]" style="font-family: 'Montserrat'; margin: auto 0; margin-right: 1vw;">Your Score</p>
+            <p class="text-[4vw] font-bold" style="color: #FF9600;"><span id="scorePercent"></span>%</p>
+        </div>
+        </div>
+        
+  </div>
+     
+<div style="margin-top: 5vw;">
+  <!-- Congratulations -->
+        <h2 class="text-[3vw] font-semibold text-black mb-[0.8vw]" style="font-family: 'Montserrat';">Congratulations</h2>
+        <p class="text-[1.2vw] font-bold uppercase text-[#FF9600] mb-[2vw] font-medium  " style="font-family: 'Montserrat';" id="resultName"></p>
+</div>
+      
+
+        <!-- Stats Grid -->
+        <div class="grid  grid-cols-2 gap-[3vw] mb-[2vw] bg-[#FFFCF7] rounded-[1vw] p-[2vw]" style="display: none;">
+            <div class="text-center">
+                <p class="text-[0.9vw] text-gray-600 mb-[0.7vw]">Total Answered</p>
+                <p class="text-[2vw] font-bold text-[#22C55E]" id="resultAnswered">0</p>
+            </div>
+            <div class="text-center">
+                <p class="text-[0.9vw] text-gray-600 mb-[0.7vw]">Correct Answers</p>
+                <p class="text-[2vw] font-bold text-[#FBB24A]" id="resultCorrect">0</p>
+            </div>
+        </div>
+
+        <!-- Restart Button -->
+        <!-- <button 
+            onclick="location.reload()" 
+            class="w-[20vw] font-semibold bg-[#FBB24A] hover:bg-[#FF9600] text-white text-[1vw] rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95" 
+            style="padding: 1.2vw; box-shadow: 0 4px 15px rgba(251, 178, 74, 0.3); margin: 0 auto; display: block;"
+        >
+            Restart Quiz
+        </button> -->
+    </div>
+</div>
+ 
+
+  
+       <!-- **************************************Slide 13 end******************************************************************** -->
+
+  </div>
+
+
+
+
+
+
+
+  <!-- =====================================slide 3 popup code start================================== -->
+
+  <div id="product-modal"
+    class="fixed inset-0 bg-opacity-10 z-[1000] hidden flex bg-gray-800/40 backdrop-blur-md  justify-center items-center p-[1vw]">
+    <div class="bg-white rounded-xl shadow-2xl border border-[.25vw] border-[#FDBF38] overflow-hidden w-[70vw] h-[32vw] p-0" style="border-radius: 2vw;">
+      <div class="flex flex-col md:flex-row bg-[#F7F7F7] p-[2vw] relative">
+
+        <div class="flex-shrink-0 flex flex-col items-center justify-center p-[1vw] ">
+          <button id="close-modal-btn"
+            class="absolute border border-[#FDBF38] top-[1vw] right-[1vw] w-[3vw] h-[2vw] cursor-pointer  flex items-center justify-center bg-white text-[#F5A623] rounded-[.5vw] text-[2vw] font-bold shadow-lg hover:bg-gray-100 transition duration-150"
+            style="padding: 1vw ; padding-bottom: 1.5vw;">
+            &times;
+          </button>
+          <img id="modal-product-image" src="" alt="Product" class="w-[30.5vw] object-contain mb-[1vw] "
+            style="padding:2vw">
+
+
+        </div>
+
+        <div class="p-[1vw] w-[20vw] flex  justify-between">
+          <!-- Full-height vertical line -->
+          <div class="w-[0.9vw] h-[20vw] bg-[#FEAE00] flex items-center my-auto border border-[#FEAE00] border-[3vw]"
+            style="margin-top: auto; margin-bottom: auto; margin-left: 1vw; border: solid  .2vw #FEAE00;"></div>
+
+          <div class="pl-[3vw]" style="padding: 4vw; font-family: 'Montserrat';">
+<div id="modal-product-title" class="text-black mb-[1.5vw] leading-tight " style="margin-bottom: 3vw; margin-top: 2vw; text-align: center;"></div>
+
+            <div class="bg-[rgba(253,191,56,0.3)] bg-opacity-70 rounded-lg p-[4vw] mb-[vw] flex flex-col gap-[.5vw] " 
+              style="padding: 1vw 3vw; width: 30.5vw; text-align: center; border-radius: 1vw; ">
+              <p id="modal-lid-weight" class="text-[1.5vw] font-semibold text-[#000000] mb-[0.5vw]">Lid Weight: N/A</p>
+              <p id="modal-tub-weight" class="text-[1.5vw] font-semibold text-[#000000]">Tub Weight: N/A</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-[#FEAE00]  text-white text-center mb-[2vw] py-[2vw] px-[2vw] text-[1.5vw]">
+        <p id="modal-pack-quantity" class="text-semibold " style="padding: 1vw 0;">No of pack in box - N/A</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================slide 3 popup code end================================== -->
+
+
+
+
+<!-- Questionary code  -->
+
+
+
+
+<script>
+        let sessionId = null;
+        let employeeName = '';
+        let designation = '';
+        let questions = [];
+        let startTime = null;
+        let timerInterval = null;
+
+        // ====== VALIDATION UTILITY ======
+        function validateName(name) {
+            // Allows letters, spaces, and exactly one dot ('.')
+            const nameRegex = /^[a-zA-Z\s]*\.?[a-zA-Z\s]*$/;
+            
+            // Check for more than one dot by counting
+            const dotCount = (name.match(/\./g) || []).length;
+            
+            return nameRegex.test(name) && dotCount <= 1 && name.trim().length > 0;
+        }
+
+        function validateDesignation(designation) {
+            // Allows only letters and spaces (text)
+            const designationRegex = /^[a-zA-Z\s]+$/;
+            return designationRegex.test(designation);
+        }
+
+        // ====== FORM FUNCTIONS ======
+        function openFormPopup() {
+            console.log('🔓 Opening form popup...');
+           document.getElementById('formContainer').classList.add('active');
+            document.getElementById('backdrop').classList.add('active');
+        }
+
+        function closeFormPopup() {
+            console.log('🔒 Closing form popup...');
+            document.getElementById('formContainer').classList.remove('active');
+            document.getElementById('backdrop').classList.remove('active');
+            document.getElementById('detailsForm').reset();
+        }
+        
+        // This helper function handles the color change based on the CSS rules defined in style.css
+        function handleRadioChange() {
+            // No need to change colors here, CSS handles the green check on ':checked'.
+            // We just call updateStats() to recalculate the answered count.
+            updateStats();
+        }
+
+
+        // Close backdrop on click
+        document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('backdrop').addEventListener('click', closeFormPopup);
+
+        // ====== FORM SUBMISSION WITH VALIDATION FIX ======
+        document.getElementById('detailsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('📝 Form submitted');
+
+            employeeName = document.getElementById('employeeName').value.trim();
+            designation = document.getElementById('designation').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            const formError = document.getElementById('formError');
+            const nameError = document.getElementById('nameError');
+            const designationError = document.getElementById('designationError');
+
+            // Reset errors
+            formError.textContent = '';
+            nameError.textContent = '';
+            designationError.textContent = '';
+
+            // --- VALIDATION ---
+            let isValid = true;
+            
+            if (!validateName(employeeName)) {
+                nameError.textContent = '❌ Name must contain only text and a maximum of one dot.';
+                isValid = false;
+            }
+            
+            if (!validateDesignation(designation)) {
+                designationError.textContent = '❌ Designation must contain only letters and spaces.';
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                return; // Stop submission if validation fails
+            }
+            // --- END VALIDATION ---
+
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loading"></div>';
+
+            try {
+                console.log('🔄 Starting session with:', employeeName, designation);
+
+                // 1. Start Session
+                const sessionResponse = await fetch('https://terratechpacks.com/Presentation/start_session.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        employee_name: employeeName, 
+                        designation: designation 
+                    })
+                });
+
+                const sessionData = await sessionResponse.json();
+                console.log('✅ Session response:', sessionData);
+
+                if (sessionData.status === 'success') {
+                    sessionId = sessionData.session_id;
+                    console.log('🆔 Session ID:', sessionId);
+
+                    // 2. Fetch Random Questions
+                    console.log('🔄 Fetching questions...');
+                    const questionsResponse = await fetch('https://terratechpacks.com/Presentation/get_random_questions.php');
+                    const questionsData = await questionsResponse.json();
+                    console.log('✅ Questions response:', questionsData);
+
+                    questions = Array.isArray(questionsData) ? questionsData : (questionsData.questions || []);
+                    console.log('📚 Total questions:', questions.length);
+
+                    if (questions.length > 0) {
+                        closeFormPopup();
+                        loadQuiz();
+                        document.getElementById('quizScreen').classList.add('active');
+                        startTimer();
+                           document.querySelector('header').style.display = 'none';
+                           document.querySelector('.nav-wrapper').style.display = 'none';
+                           document.querySelector('.counter-display').style.display = 'none';
+                           document.querySelector('img.fixed').style.display = 'none'; 
+                    } else {
+                        throw new Error('No questions available');
+                    }
+                } else {
+                    throw new Error(sessionData.message || 'Failed to start session');
+                }
+            } catch (error) {
+                console.error('❌ Error:', error);
+                formError.textContent = '❌ Error: ' + error.message;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "Let's Go";
+            }
+        });
+      
+        // ====== LOAD QUIZ (RESET FIX APPLIED) ======
+    function loadQuiz() {
+    console.log('📋 Loading quiz...');
+    
+    document.getElementById('userInfo').innerHTML = `
+        <p class="font-semibold">${employeeName}</p>
+        <p class="text-gray-500 text-[0.85vw]">Designation : ${designation}</p>
+    `;
+
+    // ⭐ FIX: RESET ANSWERED COUNT AND PROGRESS CIRCLES ⭐
+    const totalQuestions = questions.length;
+    document.getElementById('totalQuestionsCount').textContent = totalQuestions;
+    document.getElementById('answeredCount').textContent = 0; 
+    document.getElementById('pendingCount').textContent = totalQuestions;
+    updateAnsweredProgress(totalQuestions, 0); 
+    // ⭐ END FIX ⭐
+
+    const container = document.getElementById('questionsContainer');
+    container.innerHTML = '';
+
+    questions.forEach((q, index) => {
+      console.log(q);
+        const options = [q.option_a, q.option_b, q.option_c, q.option_d];
+        const labels = ['A', 'B', 'C', 'D'];
+
+        const questionHTML = `
+            <div class="bg-white rounded-[1.2vw] p-[1.5vw]   " style="padding: 1.5vw 0">
+                <div class="flex gap-[1vw] mb-[1.2vw]">
+                    <div class="w-[2.5vw] h-[2.5vw] rounded-full flex items-center justify-center text-white font-bold text-[1vw] flex-shrink-0" style="background-color: #FBB24A;">
+                        ${index + 1}
+                    </div>
+                    <p class="text-[0.95vw] font-regular  text-black flex-1" style="font-family: 'Montserrat';">${q.question_text}</p>
+                </div>
+              <div class="grid grid-cols-2 gap-x-[2vw] gap-y-[0.8vw] ml-[3.5vw]" style="margin-left:3.5vw">
+    ${options
+        .map(
+            (option, i) => `
+        <label class="flex items-center gap-[0.8vw] font-regular cursor-pointer hover:bg-[#FFFCF7] 
+                       p-[0.5vw] rounded-[0.5vw] transition"
+               style="font-family: 'Montserrat';">
+            <input type="radio" 
+                name="q_${index}_option" 
+                value="${labels[i]}" 
+                class="w-[1.1vw] h-[1.1vw] cursor-pointer custom-radio" 
+                onchange="handleRadioChange()">
+
+            <span class="text-[0.9vw] text-gray-700 font-medium">${option}</span>
+        </label>
+    `
+        )
+        .join("")}
+</div>
+
+            </div>
+        `;
+        container.innerHTML += questionHTML;
+    });
+
+    console.log('✅ Quiz loaded with', questions.length, 'questions');
+}
+        // ====== UPDATE STATS ======
+        function updateStats() {
+            const form = document.getElementById('quizForm');
+            
+            // Count all radio buttons
+            const checkedRadios = form.querySelectorAll('input[type="radio"]:checked');
+        
+            const total = questions.length;  
+            const answered = new Set();
+            
+            // Count unique answered questions
+            checkedRadios.forEach(radio => {
+                // Extracts the question index from the name attribute (e.g., "q_0_option" -> "q_0")
+                const questionName = radio.name.split('_').slice(0, 2).join('_');
+                answered.add(questionName);
+            });
+
+            const answeredCount = answered.size;
+            const pending = total - answeredCount;
+        
+            // Update Text Numbers
+            document.getElementById("totalQuestionsCount").textContent = total;
+            document.getElementById("answeredCount").textContent = answeredCount;
+            document.getElementById("pendingCount").textContent = pending;
+        
+            // Calculate pending percentage
+            let percentPending = (pending / total) * 100;
+        
+            // Update the progress stroke for Pending
+            const pendingCircle = document.getElementById("pendingProgressCircle");
+            pendingCircle.setAttribute("stroke-dasharray", `${percentPending} 100`);
+            
+            // Update the progress stroke for Answered
+            updateAnsweredProgress(total, answeredCount);
+        }
+        
+        function updateAnsweredProgress(total, answered) {
+            const percent = (answered / total) * 100;
+
+            const answeredCircle = document.getElementById("answeredProgressCircle");
+            answeredCircle.setAttribute("stroke-dasharray", `${percent} 100`);
+        }
+        // ====== END UPDATE STATS ======
+
+
+        // ====== TIMER ======
+        function startTimer() {
+            console.log('⏱️ Timer started');
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('timer').textContent = 
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // ====== SUBMIT QUIZ ======
+  document.getElementById('quizForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearInterval(timerInterval);
+      console.log('📤 Submitting quiz...');
+
+      const form = e.target;
+      const answers = [];
+      let correctAnswersCount = 0; 
+
+      const allQuestions = form.querySelectorAll('.bg-white');
+      
+      allQuestions.forEach((qDiv, index) => {
+          const selected = qDiv.querySelector(`input[name="q_${index}_option"]:checked`);
+          
+          if (selected) {
+               const questionId = questions[index] ? questions[index].question_id : null;
+              
+              answers.push({ 
+                  question_id: questionId, 
+                  chosen_answer: selected.value 
+              });
+
+              if (selected.value === questions[index].correct_answer) {
+                  correctAnswersCount++; 
+              }
+          }
+      });
+      
+
+      const totalAnswered = answers.length;
+      if (totalAnswered === 0) {
+          alert('❌ Please answer at least one question');
+          return;
+      }
+
+      try {
+          console.log('🔄 Posting answers to server...');
+          const submitResponse = await fetch('https://terratechpacks.com/Presentation/submit_answers.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                  session_id: sessionId, 
+                  answers: answers 
+              })
+          });
+
+          const submitData = await submitResponse.json();
+          console.log('✅ Server submit response:', submitData);
+
+          if (submitData.status === 'success') {
+              const resultResponse = await fetch(`https://terratechpacks.com/Presentation/get_result.php?session_id=${sessionId}`);
+              const result = await resultResponse.json();
+              
+              const correctAnswers = correctAnswersCount; 
+              const totalQuestions = questions.length;
+              const percentage = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+
+              console.log(`🎯 Final Score Calculation: ${correctAnswers}/${totalQuestions} = ${percentage}%`);
+
+              document.getElementById('scorePercent').textContent = percentage;
+              document.getElementById('resultName').textContent = `${result.employee_name} `;
+              document.getElementById('resultAnswered').textContent = totalAnswered;
+              document.getElementById('resultCorrect').textContent = correctAnswers; 
+              
+              window.updateResultsScreen(percentage, totalAnswered, correctAnswers, result.employee_name, result.designation || '');
+
+            
+          console.log('🎉 Showing results screen...');
+          const quizScreen = document.getElementById('quizScreen');
+          const resultsScreen = document.getElementById('resultsScreen');
+
+          quizScreen.classList.add('blurred');
+
+          resultsScreen.classList.add('active');
+          resultsScreen.style.display = 'flex';
+
+          } else {
+              throw new Error(submitData.message || 'Failed to submit answers');
+          }
+      } catch (error) {
+          console.error('❌ Error during submission or result display:', error);
+          alert('❌ Error: ' + error.message);
+      }
+  });
+        });
+
+
+          // Export function to trigger form from slide
+          window.openQuizForm = openFormPopup;
+      </script>
+
+
+
+
+
+
+<!-- ----------------------------  -->
+
+  <!-- <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate when #slide_1 enters the viewport
+    gsap.from("#slide_1 h1", {
+      scrollTrigger: {
+        trigger: "#slide_1",
+        start: "top 80%",  // when the top of slide_1 hits 80% of viewport
+        toggleActions: "play none none reverse", // play on enter, reverse on leave
+      },
+      opacity: 0,
+      y: 80,
+      duration: 1.2,
+      ease: "power3.out",
+    });
+
+    gsap.from("#slide_1 .content", { // optional if you wrap text in .text-box
+      scrollTrigger: {
+        trigger: "#slide_1",
+        start: "top 80%",  // when the top of slide_1 hits 80% of viewport
+        toggleActions: "play none none reverse", // play on enter, reverse on leave
+      },
+      opacity: 0,
+      y: 80,
+      duration: 1.2,
+      ease: "power3.out",
+    });
+
+    gsap.from("#slide_1 .bottom-section", { // for icons or footer
+      scrollTrigger: {
+        trigger: "#slide_1",
+        start: "top 70%",
+      },
+      opacity: 0,
+      y: 40,
+      duration: 1,
+      delay: 0.5,
+      ease: "power2.out"
+    });
+  </script> -->
+
+  <!-- <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate the heading first (Kept from original)
+    gsap.from("#slide_2 h", {
+      scrollTrigger: {
+        trigger: "#slide_2",
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      },
+      opacity: 0,
+      y: 60,
+      duration: 1,
+      ease: "power3.out"
+    });
+
+    // Animate product cards (fade-in one by one) (Kept from original)
+    gsap.from("#slide_2 .product-car", {
+      scrollTrigger: {
+        trigger: "#slide_2",
+        start: "top 75%", // when top of slide_2 hits 75% of viewport
+        toggleActions: "play none none reverse"
+      },
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: "power2.out",
+      stagger: {
+        amount: 0.8, // Reduced amount for quicker stagger
+        from: "start"
+      }
+    });
+
+    // Optional: fade in subheadings like FOOD CONTAINERS and BIO-DEGRADABLE BAGS (Kept from original)
+    gsap.from("#slide_2 h", {
+      scrollTrigger: {
+        trigger: "#slide_2",
+        start: "top 85%",
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      stagger: 0.3
+    });
+
+    // ------------------------------------------------------------------
+    // ⭐ FIX FOR SLIDE 3 ANIMATION ⭐
+    // ------------------------------------------------------------------
+    gsap.from("#slide_3 .product-card2", {
+      scrollTrigger: {
+        trigger: "#slide_3",
+        start: "top 70%", // Changed start position to trigger earlier as slide 3 enters
+        toggleActions: "play none none reverse"
+      },
+      opacity: 0, // Fade-in effect
+      y: 50, // Move up from 50px below
+      duration: 0.6, // Shorter duration for punchier effect
+      ease: "power2.out",
+      stagger: {
+        amount: 1.0, // Reduced total stagger time for better flow
+        from: "start"
+      }
+    });
+
+    // Bonus: Animate the main heading and description for Slide 3
+    gsap.from("#slide_, #slide_", {
+      scrollTrigger: {
+        trigger: "#slide_3",
+        start: "top 70%",
+        toggleActions: "play none none reverse"
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power2.out"
+    });
+  </script> -->
+
+
+
+   <!-- image slide page code  -->
+
+<script>
+    const slides = document.querySelectorAll('.carousel-slide');
+    const brandingText = document.getElementById("branding-text");
+    
+    // Function to close all slides smoothly
+    function closeAllSlides() {
+        const activeSlide = document.querySelector('.carousel-slide.active');
+        if (!activeSlide) {
+             // Already closed, just ensure the text is reset
+             brandingText.classList.add("branding-shift");
+             return;
+        }
+
+        // Target content inside the active slide
+        const activeContent = activeSlide.querySelector('.slide-content').children;
+        
+        // Use a GSAP timeline to coordinate the visual reset and CSS class change
+        gsap.timeline({
+            onComplete: () => {
+                // 3. FINAL CSS/DOM cleanup after animation completes
+                slides.forEach(s => s.classList.remove('active')); // Triggers carousel shrink CSS
+                
+                // Crucial step: Clear GSAP properties from the content for next open
+                gsap.set(activeContent, { clearProps: "all" });
+            }
+        })
+        .to(activeContent, { // 1. Fade out inner text
+            opacity: 0,
+            y: 10,
+            duration: 0.2,
+            ease: "power1.in"
+        }, 0)
+        .to(brandingText.children, { // 2. Animate the right panel content back (fixes the 'adjust' jump)
+            // Use opacity: 1 and a short duration to ensure visibility is maintained while the layout adjusts
+            duration: 0.3,
+            ease: "power2.out",
+            onStart: () => {
+                // Apply the "closed" state class immediately to trigger the layout shift
+                // The element's CSS transition (transition-all duration-500) smooths this layout change.
+                brandingText.classList.add("branding-shift"); 
+            }
+        }, 0); // Start at the same time as the fade out for a fast closure
+
+    }
+    
+    // Data for each slide
+    const slideContents = [
+       {
+            image: "./assets/Images/image-slide-page/dots-icon.svg",
+            title: "Moisture & <br/> Temperature Resistant  ",
+            description: "Perfect for chilled or frozen food, <br/> Labels don’t wrinkle or peel off due to <br/> condensation or temperature changes",
+            content1: ""
+        },
+        {
+            image: "./assets/Images/image-slide-page/brand-icon.svg",
+            title: "Excellent Branding <br/> Opportunity",
+            description: "Enables 360° design coverage, allowing <br/> strong brand visibility and differentiation on <br/> shelves",
+            content1: ""
+        },
+        {
+            image: "./assets/Images/image-slide-page/customize-icon.svg",
+            title: "Customizable &  <br/> Versatile",
+            description: "Can be made in different finishes (matte, <br/> metallic, transparent)",
+            content1: "uitable for round, square, or irregular shapes"
+        },
+        {
+            image: "./assets/Images/image-slide-page/food-icon.svg",
+            title: "Hygienic & <br/> Food-Safe",
+            description: "Ideal for food packaging because the <br/> process happens inside a closed mold —  <br/> preventing dust, glue, or contamination",
+            content1: "Suitable for hot-fill or microwaveable <br/> containers"
+        },
+        {
+            image: "./assets/Images/image-slide-page/cost-effective-icon.svg",
+            title: "Cost-Efficient in the <br/> Long Run ",
+            description: "Eliminates secondary labelling steps (no glue <br/> or post-labelling process)",
+            content1: "Reduces production time and labor costs <br/> once setup is done"
+        },
+        {
+            image: "./assets/Images/image-slide-page/recycle-icon.svg",
+            title: "Recyclable & <br/> Eco-Friendly ",
+            description: "Both the container and label are usually made of the same material (e.g. PP or PE), making it 100% recyclable — no need to separate label from the container",
+            content1: ""
+        },
+        {
+            image: "./assets/Images/image-slide-page/scartch-icon.svg",
+            title: "Durability <br/> & Scratch Resistance ",
+            description: "Since the label is fused with the container <br/> during moulding, it won’t peel, fade, or get <br/> damaged by moisture, heat, or friction",
+            content1: ""
+        },
+        {
+            image: "./assets/Images/image-slide-page/sparkle-icon.svg",
+            title: "Premium <br/> Look & Finish",
+            description: "Offers high-quality, seamless decoration with photo-quality graphics.",
+            content1: "Label becomes part of the container, giving a 'no-label' glossy or matte finish"
+        }
+    ];
+
+      slides.forEach((slide, index) => {
+        slide.addEventListener('click', () => {
+
+            const wasActive = slide.classList.contains('active');
+
+            // If the slide is already active, close it (Toggle)
+            if (wasActive) {
+                closeAllSlides(); // Use the new animated closure
+                return;
+            }
+
+            // --- TOGGLE OPEN LOGIC ---
+            
+            // 1. Close any currently active slide without immediate animation on it
+            slides.forEach(s => s.classList.remove('active'));
+            
+            // 2. Prepare right panel class (CSS should shift the panel left)
+            brandingText.classList.remove("branding-shift"); 
+
+            // 3. Expand current slide (CSS transition handles size)
+            slide.classList.add('active');
+            
+            // 4. Populate content
+            const content = slideContents[index];  // ✅ Correct item
+            const contentDiv = slide.querySelector('.slide-content');
+            const contentChildren = contentDiv.children; // Target children for GSAP animation
+
+            // Determine content based on slide color/style (index 0-3 vs 4-7)
+            if (index <= 3) {
+                // Light slides
+                contentDiv.innerHTML = `
+                    <img src="${content.image}" class="w-[4vw] h-[4vw] mb-[2vw]"/>
+                    <div class="text-[1.8vw] font-bold text-black mb-[1.5vw]">${content.title}</div>
+                    <div class="text-[1vw] text-gray-800 leading-relaxed mb-[5vw]">${content.description}</div>
+                    <div class="text-[1vw] text-gray-700 leading-relaxed">${content.content1}</div>
+                `;
+            } else {
+                // Orange slides
+                contentDiv.innerHTML = `
+                    <img src="${content.image}" class="w-[4vw] h-[4vw] mb-[2vw] brightness-0 invert"/>
+                    <div class="text-[1.8vw] font-bold text-white mb-[1.5vw]">${content.title}</div>
+                    <div class="text-[1vw] text-white leading-relaxed mb-[5vw]">${content.description}</div>
+                    <div class="text-[1vw] text-white leading-relaxed">${content.content1}</div>
+                `;
+            }
+            
+            // 5. Fade in the new slide content (Run animation after content population)
+            gsap.from(contentDiv.children, {
+                opacity: 0,
+                y: 10,
+                duration: 0.4,
+                stagger: 0.1,
+                ease: "power2.out"
+            });
+        });
+        
+    });
+
+    // Close slides when clicking outside (still useful for general closing)
+    document.addEventListener("click", (e) => {
+        const isClickInsideSlide = e.target.closest(".carousel-slide");
+
+        if (!isClickInsideSlide) {
+            closeAllSlides();
+        }
+    });
+
+    
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const headings = document.querySelectorAll(".letters-slide-infinite");
+
+headings.forEach(h => {
+  const text = h.textContent.trim();
+  h.innerHTML = "";
+
+  [...text].forEach((char, index) => {
+    const span = document.createElement("span");
+    span.classList.add("letter");
+    span.textContent = char === " " ? "\u00A0" : char;
+    span.style.animationDelay = (index * 0.04) + "s";
+    h.appendChild(span);
+  });
+});
+});
+function updateStats() {
+    const form = document.getElementById('quizForm');
+    
+    // Count all radio buttons
+    const allRadios = form.querySelectorAll('input[type="radio"]');
+    const checkedRadios = form.querySelectorAll('input[type="radio"]:checked');
+
+    const total = questions.length;  
+    const answered = checkedRadios.length;
+    const pending = total - answered;
+
+    // Update Text Numbers
+    document.getElementById("totalQuestionsCount").textContent = total;
+    document.getElementById("answeredCount").textContent = answered;
+    document.getElementById("pendingCount").textContent = pending;
+
+    // Calculate pending percentage
+    let percent = (pending / total) * 100;
+
+    // Update the progress stroke
+    const progressCircle = document.getElementById("pendingProgressCircle");
+    progressCircle.setAttribute("stroke-dasharray", `${percent} 100`);
+  updateAnsweredProgress(total, answered);
+
+    console.log(`📊 Stats → Total=${total}, Answered=${answered}, Pending=${pending}, Percent=${percent}`);
+}
+
+
+function updateAnsweredProgress(total, answered) {
+    const percent = (answered / total) * 100;
+
+    document.getElementById("answeredCount").textContent = answered;
+
+    const answeredCircle = document.getElementById("answeredProgressCircle");
+    answeredCircle.setAttribute("stroke-dasharray", `${percent} 100`);
+}
+
+  </script>
+
+
+<!-- <script>
+  // Form submission handler
+  document.getElementById('detailsForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const inputs = this.querySelectorAll('input[type="text"]');
+    const name = inputs[0].value.trim();
+    const designation = inputs[1].value.trim();
+    
+    if (!name || !designation) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    console.log('✅ Employee Name:', name);
+    console.log('✅ Designation:', designation);
+    
+    // Add your API call here
+    // Example:
+    // fetch('/api/employee', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ name, designation })
+    // })
+    
+    alert(`Welcome ${name}!\nDesignation: ${designation}`);
+    
+    // Optional: Reset form
+    this.reset();
+  });
+
+  // Close button handler
+  function closeDetailsForm() {
+    const formContainer = document.querySelector('.details-form-container');
+    gsap.to(formContainer, {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.3,
+      ease: "back.in(1.5)",
+      onComplete: () => {
+        formContainer.classList.remove('visible');
+      }
+    });
+  }
+
+  // Animate form in on slide load
+  document.addEventListener('DOMContentLoaded', function() {
+    const formContainer = document.querySelector('.details-form-container');
+    
+    // Initial animation when page loads
+    gsap.from(formContainer, {
+      opacity: 0,
+      scale: 0.7,
+      y: 50,
+      duration: 0.6,
+      ease: "back.out(1.5)",
+      delay: 0.3
+    });
+  });
+</script> -->
+
+
+
+
+<script>
+// Score ranges and configurations with SVG image paths
+function getScoreConfig(percentage) {
+    if (percentage >= 81) {
+        return {
+            imagePath: './assets/Images/result-emoji/excellent.svg', // 81-100%
+            title: 'Excellent!',
+            subtitle: 'Outstanding Performance',
+            color: '#FFD700'
+        };
+    } else if (percentage >= 61) {
+        return {
+            imagePath: './assets/Images/result-emoji/super.svg', // 61-80%
+            title: 'Super!',
+            subtitle: 'Great Job',
+            color: '#FBB24A'
+        };
+    } else if (percentage >= 41) {
+        return {
+            imagePath: './assets/Images/result-emoji/mass.svg', // 41-60%
+            title: 'Good Effort!',
+            subtitle: 'Keep It Up',
+            color: '#FBB24A'
+        };
+    } else if (percentage >= 21) {
+        return {
+            imagePath: './assets/Images/result-emoji/smile.svg', // 21-40%
+            title: 'Nice Try!',
+            subtitle: 'Practice Makes Perfect',
+            color: '#FF9600'
+        };
+    } else {
+        return {
+            imagePath: './assets/Images/result-emoji/sad.svg', // 0-20%
+            title: 'Keep Learning!',
+            subtitle: 'Study & Try Again',
+            color: '#EF4444'
+        };
+    }
+}
+
+function animateDonutChart(percentage) {
+    console.log('🎨 Animating donut chart to:', percentage + '%');
+    const circle = document.getElementById('scoreCircle');
+    const radius = 50; // as per your SVG circle r attribute
+    const circumference = 2 * Math.PI * radius;
+
+    circle.style.strokeDasharray = circumference;
+    circle.style.strokeDashoffset = circumference; // hidden initially
+
+    setTimeout(() => {
+        // Calculate offset based on percentage
+        const offset = circumference - (percentage / 100) * circumference;
+        circle.style.transition = 'stroke-dashoffset 1s ease-out';
+        circle.style.strokeDashoffset = offset;
+        console.log('✅ Donut chart animated with offset:', offset);
+    }, 100);
+}
+
+// Main function to update results screen
+function updateResultsScreen(percentage, totalAnswered, correctAnswers, employeeName, designation) {
+    const config = getScoreConfig(percentage);
+    console.log(getScoreConfig(percentage));
+
+    // Fix emoji display
+    const emojiElement = document.getElementById('resultEmoji');
+    emojiElement.src = config.imagePath;
+    emojiElement.alt = config.title;
+    emojiElement.style.display = 'block'; // Ensure it's visible
+
+    document.getElementById('resultTitle').textContent = config.title;
+    document.getElementById('resultSubtitle').textContent = config.subtitle;
+    document.getElementById('resultName').textContent = employeeName;
+    document.getElementById('resultAnswered').textContent = totalAnswered;
+    document.getElementById('resultCorrect').textContent = correctAnswers;
+
+    // Update percentage
+    document.getElementById('scorePercent').textContent = percentage;
+
+    // Update donut chart color and animate
+    const circle = document.getElementById('scoreCircle');
+    circle.setAttribute('stroke', config.color);
+
+    animateDonutChart(percentage);
+    console.log( animateDonutChart(percentage));
+}
+
+
+// Export function to be called from main quiz code
+window.updateResultsScreen = updateResultsScreen;
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const closeBtn = document.getElementById("closeResultsBtn");
+  const resultsScreen = document.getElementById("resultsScreen");
+  const quizScreen = document.getElementById("quizScreen"); // if you want to hide it too
+  const homeSlide = document.querySelector(".slide-item[data-navigation='Home']") 
+                 || document.getElementById("slide_1");
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      // Hide results screen
+      if (resultsScreen) {
+        resultsScreen.style.display = "none";
+        resultsScreen.classList.remove("active");
+      }
+
+      // Optionally hide quiz screen if it stays visible
+      if (quizScreen) {
+        quizScreen.style.display = "none";
+        quizScreen.classList.remove("active");
+      }
+
+      // Scroll to home slide (inside viewport container if you use one)
+      if (homeSlide) {
+        homeSlide.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    });
+  }
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('closeResultsBtn');
+  const resultsScreen = document.getElementById('resultsScreen');
+  const quizScreen = document.getElementById('quizScreen');
+  const homeSlide =
+    document.querySelector(".slide-item[data-navigation='Home']") ||
+    document.getElementById("slide_1");
+                            
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      // Hide popup
+      resultsScreen.classList.remove('active');
+      resultsScreen.style.display = 'none';
+
+      // Remove blur from quiz
+      quizScreen.classList.remove('blurred');
+
+      // Scroll back to home slide if needed
+      if (homeSlide) {
+      const headerEl = document.querySelector('header');
+  const navEl = document.querySelector('.nav-wrapper');
+  const counterEl = document.querySelector('.counter-display');
+  const fixedImg = document.querySelector('img.fixed');
+
+  if (headerEl) headerEl.style.display = '';
+  if (navEl) navEl.style.display = '';
+  if (counterEl) counterEl.style.display = '';
+  if (fixedImg) fixedImg.style.display = '';
+
+        homeSlide.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  }
+});
+
+</script>
+    <script src="./js/animation.js"></script>
+  <script src="./js/slide.js"></script>
+  <script src="./script.js"></script>
+
+</body>
+
+</html>
