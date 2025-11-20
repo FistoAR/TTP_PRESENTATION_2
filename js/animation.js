@@ -78,6 +78,13 @@ function createSlideAnimation(selector, animationProps) {
 
 function animateSlide1() {
   let root = ".slide-item[data-navigation='Home']";
+  
+  const mainTextSelector = root + " .header-txt-1";
+  const locationTextSelector = root + " .absolute.top-\\[44\\%\\] .flex.flex-col.header-txt-1";
+
+  // ⭐ FIXED 1: SET INITIAL STATE TO HIDE ELEMENTS BEFORE ANIMATION ⭐
+  // This prevents the flicker when the page loads.
+  gsap.set([mainTextSelector, locationTextSelector], { opacity: 0 }); 
 
   let tl = gsap.timeline({
     scrollTrigger: {
@@ -89,21 +96,22 @@ function animateSlide1() {
     }
   });
 
-  // Initial animations
-  tl.from(".header-txt-1", {
-    x: -250,
-    opacity: 0,
-    duration: 1,
-    ease: "power3.out"
-  }, 0.1);
+  // ⭐ FIXED 2: Change to gsap.fromTo() to guarantee the final state is VISIBLE ⭐
+  // Initial animations (Text blocks)
+  tl.fromTo(mainTextSelector, 
+    { x: -250, opacity: 0 }, 
+    { x: 0, opacity: 1, duration: 1, ease: "power3.out" }, 
+    0.1
+  );
 
-  tl.from(root + " .absolute.top-\\[44\\%\\] .flex.flex-col.header-txt-1", {
-    y: 40,
-    opacity: 0,
-    duration: 0.7,
-    stagger: 0.1
-  }, 0.5); 
+  // Location/Clock text animation
+  tl.fromTo(locationTextSelector, 
+    { y: 40, opacity: 0 }, 
+    { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: "power2.out" }, 
+    0.5
+  ); 
   
+  // Image animation (remains gsap.fromTo)
   tl.fromTo(root + " img[alt='bottom-circle']", 
     { y: 100, opacity: 0, scale: 0.9 }, 
     { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out" }, 
@@ -119,9 +127,9 @@ function animateSlide1() {
     root + " img[alt='250ml-glass-container']"
   ];
   
-  const popUpDuration = 0.8;    // Pop-up animation
-  const holdDuration = 1.0;     // Hold for 1 second ⏸️
-  const moveDuration = 1.5;     // Move upward
+  const popUpDuration = 0.8;    
+  const holdDuration = 1.0;     
+  const moveDuration = 1.5;     
   const totalCycle = popUpDuration + holdDuration + moveDuration;
   
   // Infinite timeline
@@ -166,10 +174,30 @@ function animateSlide1() {
   // Start infinite animation
   tl.add(() => infiniteTl.play(), 0.8);
   
-  // Reset on reverse scroll
+  // FIXED: Reset on reverse scroll / leave
   tl.scrollTrigger.vars.onLeaveBack = () => {
     infiniteTl.pause(0);
     gsap.set(containers, { y: 100, opacity: 0, scale: 0.9 });
+    
+    // Explicitly reset the text elements to their final visible state
+    gsap.set([mainTextSelector, locationTextSelector], { 
+        x: 0, 
+        y: 0, 
+        opacity: 1,
+        clearProps: "transform, opacity" 
+    });
+  };
+  
+  // Also ensure the loop stops immediately if the scroll position jumps past.
+  tl.scrollTrigger.vars.onLeave = () => {
+    infiniteTl.pause(0);
+  };
+  
+  // Re-enable infinite loop if we scroll back in
+  tl.scrollTrigger.vars.onEnterBack = () => {
+      // Re-add the animation state, ensuring visibility
+      gsap.set([mainTextSelector, locationTextSelector], { opacity: 1, x: 0, y: 0 });
+      infiniteTl.play();
   };
 }
 // ==========================================

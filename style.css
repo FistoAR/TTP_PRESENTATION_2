@@ -576,3 +576,49 @@ background-color: white;
   filter: blur(4px);
   pointer-events: none;
 }
+
+
+.full-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    display: none;
+    padding: 5vw;
+    padding-bottom: 0;
+}
+
+.full-screen.active {
+    display: flex !important;
+}
+
+/* Make questions scrollable but keep submit button fixed */
+#quizForm {
+    position: relative;
+    padding-bottom: 5vw;
+}
+
+#quizForm > div:last-child {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to top, white 70%, rgba(255, 255, 255, 0.9) 85%, transparent);
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    margin-top: 2vw;
+    z-index: 10;
+}
+
+/* Back button hover effect */
+#backToHomeBtn:hover {
+    transform: translateX(-2px);
+}
+
+#backToHomeBtn i {
+    transition: transform 0.3s ease;
+}
+
+#backToHomeBtn:hover i {
+    transform: translateX(-3px);
+}
