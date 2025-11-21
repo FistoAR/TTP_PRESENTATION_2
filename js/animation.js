@@ -120,10 +120,9 @@ function animateSlide1() {
 
   // Container animation - ALL 3 CONTAINERS
   const containers = [
-    root + " img[alt='500ml-container']",
-    root + " img[alt='450ml-container']",
     root + " img[alt='250ml-container']",
-    root + " img[alt='450ml1-container']",
+    root + " img[alt='450ml-container']",
+    root + " img[alt='1kg-container']",
     root + " img[alt='250ml-glass-container']"
   ];
   
