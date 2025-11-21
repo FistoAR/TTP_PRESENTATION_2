@@ -1077,30 +1077,61 @@ function refreshDropdownActivePage(activePage) {
 
 refreshSlideCounter(1);
 
+// ... (Lines 371-468 remain UNCHANGED in slide.js)
+
 function displayProductModal(productTitle, productImage, lidGrams, tubGrams, boxQuantity) {
   const productDialog = document.getElementById('product-modal');
+  const modalContent = productDialog.querySelector('div.bg-white'); // Target the inner content box for animation
   
- // Split product title into two parts based on two spaces: "120ml  Round Container"
-let [bigTitle, smallTitle] = productTitle.split("  ");
+  // Split product title into two parts based on two spaces: "120ml  Round Container"
+  let [bigTitle, smallTitle] = productTitle.split("  ");
 
-document.getElementById('modal-product-title').innerHTML = `
-  <span class="block text-[3vw] font-bold leading-tight">${bigTitle}</span>
-  <span class="block text-[1.6vw] font-semibold leading-tight">${smallTitle}</span>
-`;
+  document.getElementById('modal-product-title').innerHTML = `
+    <span class="block text-[3vw] font-bold leading-tight">${bigTitle}</span>
+    <span class="block text-[1.6vw] font-semibold leading-tight">${smallTitle}</span>
+  `;
 
   document.getElementById('modal-product-image').src = productImage;
   document.getElementById('modal-lid-weight').textContent = `Lid Weight - ${lidGrams}`;
   document.getElementById('modal-tub-weight').textContent = `Tub Weight - ${tubGrams}`;
   document.getElementById('modal-pack-quantity').textContent = `No of pack in box - ${boxQuantity}`;
 
+  // 1. Ensure the modal wrapper is visible immediately (Flex, not hidden)
   productDialog.classList.remove('hidden');
   productDialog.classList.add('flex');
+  
+  // 2. Clear any lingering GSAP settings from the previous close before running the open animation
+  gsap.set(modalContent, { clearProps: "all" });
+
+  // *** GSAP Zoom-in OPEN Animation (MODIFIED) ***
+  gsap.from(modalContent, {
+      scale: 0.9, // Start smaller (zoom-in effect)
+      opacity: 0,
+      duration: 0.3, // Shorter duration for quick zoom
+      ease: "power2.out" // Smooth acceleration/deceleration
+  });
 }
 
 function hideProductModal() {
   const productDialog = document.getElementById('product-modal');
-  productDialog.classList.remove('flex');
-  productDialog.classList.add('hidden');
+  const modalContent = productDialog.querySelector('div.bg-white'); // Target the inner content box for animation
+
+  // *** GSAP Zoom-Out CLOSE Animation ***
+  gsap.to(modalContent, {
+      scale: 0.8, // Zoom out
+      opacity: 0, // Fade out
+      duration: 0.3,
+      ease: "power2.in", // Fast ease-in for quick disappearance
+      onComplete: () => {
+          // 1. Hide the modal wrapper
+          productDialog.classList.remove('flex');
+          productDialog.classList.add('hidden');
+          
+          // 2. CRITICAL: Reset scale and opacity back to 1/initial state 
+          // so the next 'zoom-in' animation starts correctly.
+          gsap.set(modalContent, { clearProps: "all" });
+      }
+  });
 }
 
 window.openProductModal = displayProductModal;
@@ -1122,7 +1153,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-// Make navigateToSlide accessible globally
-window.navigateToSlide = navigateToSlide;
-window.scrollToSlide = navigateToSlide; // Alias for compatibility

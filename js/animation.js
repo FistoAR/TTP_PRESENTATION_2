@@ -914,7 +914,7 @@ function animateSlide11() {
   // ==========================================
   const loopTl = gsap.timeline({
     repeat: -1,
-    repeatDelay: 1, // 1 second pause between cycles
+    repeatDelay: 3, // 1 second pause between cycles
     paused: true
   });
 
@@ -1092,7 +1092,7 @@ function animateSlide12() {
   // ==========================================
   const loopTl = gsap.timeline({
     repeat: -1,
-    repeatDelay: 1, // 1 second pause between cycles
+    repeatDelay: 3, // 1 second pause between cycles
     paused: true
   });
 
