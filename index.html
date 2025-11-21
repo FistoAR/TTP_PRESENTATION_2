@@ -1427,23 +1427,24 @@
                                 style="position:absolute; right:-6rem; top:2rem; width:34rem; height:28rem; background: radial-gradient(circle at 30% 30%, rgba(251,178,74,0.08) 0, transparent 35%), radial-gradient(circle at 70% 70%, rgba(255,150,0,0.04) 0, transparent 30%); border-radius:50%; filter: blur(20px); pointer-events:none;">
                             </div>
 
-                            <div
-                                style="background:#fff; border-radius:2vw; padding:2vw; border:1px solid #f3f4f6; box-shadow:0 6px 18px rgba(15,23,42,0.04); display:flex; flex-direction:column; gap:2vw; z-index:10;">
-                                <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div style="background:#fff; border-radius:2vw; padding:2vw; border:1px solid #f3f4f6; box-shadow:0 6px 18px rgba(15,23,42,0.04); display:flex; flex-direction:column; gap:2vw; z-index:10;">
+                               <div style="display:flex; flex-direction:column; align-items:center;">
                                     <h3
                                         style="font-family:'Montserrat',sans-serif; font-weight:600; font-size:1vw; margin:0 0 0.5vw 0;">
-                                        Time Efficiency</h3>
+                                        Total Answered
+                                    </h3>
                                     <div style="position:relative; width:7vw; height:7vw;">
                                         <svg viewBox="0 0 36 36" style="width:100%; height:100%;">
                                             <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f3f4f6"
                                                 stroke-width="3"></circle>
-                                            <circle id="reportTimerCircle" cx="18" cy="18" r="15.915" fill="none"
-                                                stroke="#2563EB" stroke-width="3" stroke-dasharray="0 100"
+                                            <circle id="reportAnsweredCircle" cx="18" cy="18" r="15.915" fill="none"
+                                                stroke="#FF9600" stroke-width="3" stroke-dasharray="0 100" pathLength="100"
                                                 stroke-linecap="round" transform="rotate(-90 18 18)"></circle>
                                         </svg>
-                                        <div id="reportTimer"
-                                            style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.3vw; color:#2563EB;">
-                                            00:00</div>
+                                        <div id="reportAnsweredCountDisplay"
+                                            style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.8vw; color:#FF9600;">
+                                            0
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1485,7 +1486,7 @@
                             </div>
 
                             <button onclick="handleBackToHome()"
-                                style="width:100%; font-weight:700; background:#FBB24A; color:#fff; font-size:1.2vw; border-radius:999px; padding:1vw 0; box-shadow:0 8px 18px rgba(251,178,74,0.18); border:none; cursor:pointer; z-index:10;">
+                                style="width:100%; font-weight:700; background:#FBB24A; color:#fff; font-size:1.2vw; border-radius:999px; padding:1vw 0; margin-bottom: 1vw; box-shadow:0 8px 18px rgba(251,178,74,0.18); border:none; cursor:pointer; z-index:10;">
                                 Close
                             </button>
                         </div>
@@ -1717,32 +1718,37 @@ function updateDropdownTitle(slideNumber) {
     }
 
     function updateResultsScreen(percentage, totalAnswered, correctAnswers, employeeName) {
-        const config = getScoreConfig(percentage);
-        
-        const setText = (id, value) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = value;
-        };
+    const config = getScoreConfig(percentage);
+    
+    // Total number of questions from the 'questions' array (or the fixed TOTAL_QUESTIONS constant)
+    const totalQuestions = questions.length > 0 ? questions.length : TOTAL_QUESTIONS; 
+    
+    const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    };
 
-        const emojiElement = document.getElementById('resultEmoji');
-        if(emojiElement) {
-            emojiElement.src = config.imagePath;
-            emojiElement.alt = config.title;
-            emojiElement.style.display = 'block';
-        }
-
-        setText('resultTitle', config.title);
-        setText('resultSubtitle', config.subtitle);
-        setText('resultName', employeeName);
-        setText('scoreDisplay', `${percentage}%`);
-
-        const circle = document.getElementById('scoreCircle');
-        if(circle) {
-            circle.setAttribute('stroke', config.color);
-            // Retaining animateDonutChart for the FINAL RESULT screen
-            animateDonutChart('scoreCircle', percentage);
-        }
+    const emojiElement = document.getElementById('resultEmoji');
+    if(emojiElement) {
+        emojiElement.src = config.imagePath;
+        emojiElement.alt = config.title;
+        emojiElement.style.display = 'block';
     }
+
+    setText('resultTitle', config.title);
+    setText('resultSubtitle', config.subtitle);
+    setText('resultName', employeeName);
+    
+    // *** MODIFICATION: Set score to COUNT/TOTAL format (e.g., 10/30) ***
+    setText('scoreDisplay', `${correctAnswers}/${totalQuestions}`);
+
+    const circle = document.getElementById('scoreCircle');
+    if(circle) {
+        circle.setAttribute('stroke', config.color);
+        // Retaining animateDonutChart for the FINAL RESULT screen, which still uses percentage for animation
+        animateDonutChart('scoreCircle', percentage);
+    }
+}
 
     // ==========================================
     // 4. ADMIN DATA FETCHING & LOGIC
@@ -1789,50 +1795,50 @@ function updateDropdownTitle(slideNumber) {
 
     // NEW: Function to fetch answers, calculate score, and return the result
     async function fetchAndCalculateScoreFromAnswers(session) {
-        if (questionMap.size === 0) {
-            await fetchQuestions(); // Ensure questions are loaded
-        }
-        
-        try {
-            const answers = await fetchFullAnswers(session.session_id);
-
-            if (answers.length === 0) {
-                // If the user submitted zero answers
-                return { 
-                    ...session, 
-                    score: `0/${TOTAL_QUESTIONS}`, 
-                    score_count: 0, 
-                    score_percentage: 0,
-                    status: 'not_answered' 
-                };
-            }
-
-            let correctCount = 0; 
-            
-            answers.forEach(answer => {
-                const qDetails = questionMap.get(String(answer.question_id));
-                if (qDetails && answer.chosen_answer === qDetails.correct_answer) {
-                    correctCount++;
-                }
-            });
-            
-            const scoreString = `${correctCount}/${TOTAL_QUESTIONS}`;
-            const scorePercentage = TOTAL_QUESTIONS > 0 ? Math.round((correctCount / TOTAL_QUESTIONS) * 100) : 0;
-            
-            return {
-                ...session,
-                score: scoreString,
-                score_count: correctCount,
-                score_percentage: scorePercentage,
-                status: 'success'
-            };
-        } catch (error) {
-            console.warn(`Could not calculate score for session ${session.session_id}:`, error);
-        }
-        
-        return { ...session, score: "Error", status: 'error' };
+    if (questionMap.size === 0) {
+        await fetchQuestions(); // Ensure questions are loaded
     }
     
+    try {
+        const answers = await fetchFullAnswers(session.session_id);
+
+        if (answers.length === 0) {
+            // If the user submitted zero answers
+            return { 
+                ...session, 
+                score: `0/${TOTAL_QUESTIONS}`, 
+                score_count: 0, 
+                score_percentage: 0,
+                status: 'not_answered' 
+            };
+        }
+
+        let correctCount = 0; 
+        
+        answers.forEach(answer => {
+            const qDetails = questionMap.get(String(answer.question_id));
+            if (qDetails && answer.chosen_answer === qDetails.correct_answer) {
+                correctCount++;
+            }
+        });
+        
+        const scoreString = `${correctCount}/${TOTAL_QUESTIONS}`;
+        const scorePercentage = TOTAL_QUESTIONS > 0 ? Math.round((correctCount / TOTAL_QUESTIONS) * 100) : 0;
+        
+        return {
+            ...session,
+            score: scoreString,
+            score_count: correctCount,
+            score_percentage: scorePercentage,
+            status: 'success'
+        };
+    } catch (error) {
+        console.warn(`Could not calculate score for session ${session.session_id}:`, error);
+    }
+    
+    return { ...session, score: "Error", status: 'error' };
+}
+
     // FIX: Robust Score Processing (around line ~200)
     function processAdminData(sessions) {
         // Initially format data, leaving scores as 'N/A' or 'Loading...' to be updated later
@@ -1900,8 +1906,12 @@ function updateDropdownTitle(slideNumber) {
 
     // --- ADMIN REPORT GENERATOR ---
     async function generateFullReport(sessionDetails) {
+    // CRITICAL FIX: Ensure question details are loaded before running the report
+    if (questionMap.size === 0) {
+        await fetchQuestions(); 
+    }
+    
     try {
-        // Fetch the raw answers for the specific session
         const rawAnswerData = await fetchFullAnswers(sessionDetails.session_id) || [];
         const modal = document.getElementById('reportScreen');
         const reportList = document.getElementById('reportList');
@@ -1915,22 +1925,12 @@ function updateDropdownTitle(slideNumber) {
         modal.style.display = 'block';
         modal.classList.add('active');
 
-        // --- BUTTON FIX ---
-        const allBtns = modal.querySelectorAll('button');
-        let closeBottomBtn = null;
-
-        // Find bottom close button (not the X icon)
-        allBtns.forEach(btn => {
-            if(btn.id !== 'closeResultsBtn' && btn.id !== 'viewReportBtn') {
-                closeBottomBtn = btn;
-            }
-        });
-
+        // --- Button Setup (Omitted for brevity) ---
+        const closeBottomBtn = document.querySelector('#reportScreen button:not(#closeResultsBtn)');
         if (closeBottomBtn) {
             const newBtn = closeBottomBtn.cloneNode(true);
             newBtn.id = "reportFooterBtn";
             closeBottomBtn.parentNode.replaceChild(newBtn, closeBottomBtn);
-
             newBtn.onclick = handleBackToAdminList;
             newBtn.textContent = 'Back to Report List';
             newBtn.style.cursor = 'pointer';
@@ -1942,66 +1942,58 @@ function updateDropdownTitle(slideNumber) {
             closeIconBtn.parentNode.replaceChild(newIconBtn, closeIconBtn);
             newIconBtn.onclick = handleBackToAdminList;
         }
-        // --- END BUTTON FIX ---
+        // --- End Button Setup ---
 
         document.getElementById('reportEmployeeName').textContent = sessionDetails.employee_name || 'N/A';
         document.getElementById('reportDesignation').textContent = sessionDetails.designation || 'N/A';
 
         let correctCount = 0;
         let wrongCount = 0;
+        
+        // CORRECT: The totalAnsweredCount is simply the count of submitted answers
+        const totalAnsweredCount = rawAnswerData.length; 
 
-        // *** Modification to handle Not Answered Case ***
-        if (rawAnswerData.length === 0) {
-            // Override the report list content
+        if (totalAnsweredCount === 0) {
+            // Override the report list content for not-answered case...
             reportList.innerHTML = `
-                <div style="text-align: center; padding: 5vw; margin-top: 5vw; border: 2px dashed #00AC42; border-radius: 1vw; background-color: #f0fff5;">
+                <div style="text-align: center; padding: 5vw; margin-top: 5vw; border: 2px dashed #00AC42; border-radius: 1vw; background-color: #f0fff0;">
                     <h1 style="font-size: 2.5vw; color: #00AC42; font-weight: 700; margin-bottom: 1vw;">User Not Attended Any Question</h1>
                     <p style="font-size: 1.2vw; color: #555;">The user session ended without any questions being answered or submitted.</p>
                 </div>
             `;
-            // Set counts to zero for KPIs
-            correctCount = 0;
-            wrongCount = 0;
-            // Skip the rest of the question-by-question rendering
         } else {
-            // --- Normal detailed report rendering ---
-
-            // Convert rawAnswerData into a Map for fast lookup
-            const submittedAnswersMap = new Map(rawAnswerData.map(a => [String(a.question_id), a.chosen_answer]));
-
-            // Iterate over ALL submitted answers (this will only display answered questions)
+            // --- Normal detailed report rendering & calculation ---
             rawAnswerData.forEach((answerObj, index) => {
                 const qId = String(answerObj.question_id);
                 const qDetails = questionMap.get(qId);
-
-                if (!qDetails) return; // Skip if question details aren't loaded
+                
+                if (!qDetails || !qDetails.question_text || !qDetails.correct_answer) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.style.cssText = 'padding:1vw; border-radius:12px; border:1px solid #FF0000; background-color:#fff0f0; margin-bottom:1.5vw;';
+                    errorDiv.innerHTML = `<div style="font-weight:600; font-size:1vw; color:#EF4444;">Error: Question ID ${qId} details not found or incomplete.</div>`;
+                    reportList.appendChild(errorDiv);
+                    return; 
+                }
 
                 const userVal = answerObj.chosen_answer;
-                const correctVal = qDetails.correct_answer;
-                const isCorrect = userVal === correctVal;
-                const isAnswered = true; // Since we are iterating over rawAnswerData
+                const isCorrect = userVal === qDetails.correct_answer;
 
                 if (isCorrect) {
                     correctCount++;
                 } else if (!isCorrect) {
                     wrongCount++;
                 }
-
+                
                 // --- Render Row ---
                 const itemDiv = document.createElement('div');
-
-                // Determine styling based on submission status
                 let bgColor = isCorrect ? '#f0fff5' : '#fff0f0';
                 let borderColor = isCorrect ? '#d4edda' : '#f8d7da';
-
                 itemDiv.style.cssText = `display:flex; flex-direction:column; gap:0.5vw; margin-bottom:1.5vw; padding:1vw; border-radius:12px; border:1px solid ${borderColor}; background-color:${bgColor};`;
 
                 const headerRow = document.createElement('div');
                 headerRow.style.cssText = 'display:flex; gap:1vw; align-items:flex-start; margin-bottom: 0.5vw;';
 
-                // Use a basic counter index for display
                 const questionIndex = index + 1;
-
                 const badgeColor = isCorrect ? '#00AC42' : '#EF4444';
 
                 headerRow.innerHTML = `
@@ -2010,10 +2002,8 @@ function updateDropdownTitle(slideNumber) {
                 `;
                 itemDiv.appendChild(headerRow);
 
-                // Answer Status Display
                 const answerStatusDiv = document.createElement('div');
                 answerStatusDiv.style.cssText = 'font-weight: 600; font-size: 1vw; padding: 0.5vw 0 0.8vw 3vw;';
-
                 if (isCorrect) {
                     answerStatusDiv.innerHTML = `<span style="color: #00AC42;">Correctly Answered.</span>`;
                 } else {
@@ -2021,15 +2011,15 @@ function updateDropdownTitle(slideNumber) {
                 }
                 itemDiv.appendChild(answerStatusDiv);
 
-                // Options Grid
+                // --- Options Grid (FIXED) ---
                 const optionsGrid = document.createElement('div');
                 optionsGrid.style.cssText = 'display:grid; grid-template-columns: 1fr 1fr; gap: 0.8vw; padding-left: 3vw;';
-
+                
                 const options = [
-                    { label: 'A', text: qDetails.option_a },
-                    { label: 'B', text: qDetails.option_b },
-                    { label: 'C', text: qDetails.option_c },
-                    { label: 'D', text: qDetails.option_d }
+                    { label: 'A', text: qDetails.option_a || "" },
+                    { label: 'B', text: qDetails.option_b || "" },
+                    { label: 'C', text: qDetails.option_c || "" },
+                    { label: 'D', text: qDetails.option_d || "" }
                 ];
 
                 options.forEach(opt => {
@@ -2053,27 +2043,51 @@ function updateDropdownTitle(slideNumber) {
                         weight = '500';
                     }
 
-
                     const optDiv = document.createElement('div');
                     optDiv.style.cssText = `display:flex; align-items:center; gap:0.5vw; color:${colorStyle}; font-weight:${weight}; font-size:0.9vw;`;
-                    optDiv.innerHTML = `${icon} <span>${opt.label}. ${opt.t}</span>`;
+                    
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = opt.text;
+                    
+                    optDiv.innerHTML = `${icon} <span>${opt.label}. </span>`;
+                    optDiv.appendChild(textSpan);
+
                     optionsGrid.appendChild(optDiv);
                 });
 
                 itemDiv.appendChild(optionsGrid);
                 reportList.appendChild(itemDiv);
+                // --- End Options Grid ---
             });
         }
 
         // --- KPI Update Logic (Runs regardless of report content) ---
         const totalQuestionsCounted = TOTAL_QUESTIONS;
-        const scorePct = (correctCount / totalQuestionsCounted) * 100;
         const correctPct = (correctCount / totalQuestionsCounted) * 100;
         const wrongPct = (wrongCount / totalQuestionsCounted) * 100;
 
-        // CRITICAL FIX: Ensure DOM elements are fully available before animating/updating
+        // --- KPI UPDATE FOR TOTAL ANSWERED (SET SYNCHRONOUSLY) ---
+        const headerEl = document.querySelector('#reportScreen .report-kpi-box-1 h3');
+        const answeredCountDisplay = document.getElementById('reportAnsweredCountDisplay');
+        const answeredCircle = document.getElementById('reportAnsweredCircle');
+        const answeredPct = (totalAnsweredCount / totalQuestionsCounted) * 100;
+
+        if(headerEl) {
+            headerEl.textContent = "Total Answered"; 
+        }
+        if (answeredCountDisplay) {
+            answeredCountDisplay.textContent = `${totalAnsweredCount}`; 
+            answeredCountDisplay.style.color = '#FF9600'; 
+        }
+        if (answeredCircle) {
+            answeredCircle.setAttribute('stroke', '#FF9600'); 
+            animateDonutChart('reportAnsweredCircle', answeredPct); 
+        }
+        // --- END TOTAL ANSWERED KPI FIX ---
+
+
         setTimeout(() => {
-            // 1. Update score counts (fixed the null check for robustness)
+            // 1. Update Correct/Wrong counts (text)
             const correctCountEl = document.getElementById('reportCorrectCount');
             const wrongCountEl = document.getElementById('reportWrongCount');
 
@@ -2083,40 +2097,16 @@ function updateDropdownTitle(slideNumber) {
             // 2. Animate the Correct/Wrong circles
             animateDonutChart('reportCorrectCircle', correctPct);
             animateDonutChart('reportWrongCircle', wrongPct);
+            
+        }, 50);
 
-            // 3. Update/Animate the main Final Score KPI (REPURPOSED for Admin Final Score)
-            const firstKpiBox = document.querySelector('.report-kpi-box-1') || document.getElementById('reportTimer')?.closest('div').parentElement;
-            if(firstKpiBox) {
-                firstKpiBox.classList.add('report-kpi-box-1');
-                const headerEl = firstKpiBox.querySelector('h3');
-                if(headerEl) headerEl.textContent = "Final Score"; // Admin: Final Score
-
-                const container = firstKpiBox.querySelector('div[style*="position:relative"]');
-
-                if(container) {
-                    // Re-render HTML with pathLength="100" (crucial for admin view)
-                    container.innerHTML = `
-                        <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
-                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f3f4f6" stroke-width="3"></circle>
-                            <circle id="adminScoreCircle" cx="18" cy="18" r="15.915" fill="none" stroke="#FF9600" stroke-width="3" stroke-dasharray="0 100" pathLength="100" stroke-linecap="round" transform="rotate(-90 18 18)"></circle>
-                        </svg>
-                        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.8vw; color:#FF9600;">
-                            ${correctCount}
-                        </div>
-                    `;
-                    animateDonutChart('adminScoreCircle', scorePct);
-                }
-            }
-        }, 50); // Delay of 50ms for DOM readiness
-
-        // Return the final calculated score string
+        // Return the final calculated score string (Correct/Total)
         return `${correctCount}/${totalQuestionsCounted}`;
 
     } catch (err) {
         console.error('Error generating full report:', err);
     }
 }
-
     // --- RENDER TABLE ---
     function renderTableRows() {
         const tableBody = document.querySelector('#adminReportScreen tbody');
@@ -2165,8 +2155,8 @@ function updateDropdownTitle(slideNumber) {
                 scoreCell.style.textAlign = 'left'; 
             } else {
                 // *** Loading/Error: Gray, Left-Aligned (Default) ***
-                scoreCell.style.color = '#888';
-                scoreCell.style.fontWeight = 'normal';
+                scoreCell.style.color = '#000';
+                scoreCell.style.fontWeight = '500';
                 scoreCell.style.textAlign = 'left'; 
             }
             // --- End Initial Styling Logic ---
@@ -2562,7 +2552,8 @@ function updateDropdownTitle(slideNumber) {
     });
 
     // --- GENERATE REPORT FOR USER (LOCAL) ---
-    function generateUserReport(answers) {
+   // --- GENERATE REPORT FOR USER (LOCAL) ---
+function generateUserReport(answers) {
     const reportList = document.getElementById('reportList');
     reportList.innerHTML = '';
     document.getElementById('reportEmployeeName').textContent = employeeName;
@@ -2571,96 +2562,81 @@ function updateDropdownTitle(slideNumber) {
     let correctCount = 0;
     let wrongCount = 0;
 
-    // *** Local User Report only iterates submitted answers ***
-    if (answers.length === 0) {
-         reportList.innerHTML = `
-            <div style="text-align: center; padding: 5vw; margin-top: 5vw; border: 2px dashed #00AC42; border-radius: 1vw; background-color: #f0fff5;">
-                <h1 style="font-size: 2.5vw; color: #00AC42; font-weight: 700; margin-bottom: 1vw;">You did not attend any questions</h1>
-                <p style="font-size: 1.2vw; color: #555;">Please complete the quiz to view your detailed report.</p>
-            </div>
-        `;
-    } else {
-         questions.forEach((q, index) => {
-            const userAnswerObj = answers.find(a => a.question_id == q.question_id);
-            const userVal = userAnswerObj ? userAnswerObj.chosen_answer : null;
-            const isCorrect = userVal === q.correct_answer;
-            // We only count correct/wrong if an answer was submitted (userVal is not null).
-            if(isCorrect) correctCount++;
-            else if(userVal) wrongCount++;
+    // Iterate through all available questions
+    questions.forEach((q, index) => {
+        const userAnswerObj = answers.find(a => a.question_id == q.question_id);
+        const userVal = userAnswerObj ? userAnswerObj.chosen_answer : null;
+        const isCorrect = userVal === q.correct_answer;
+        
+        // Count correct/wrong only if an answer was submitted
+        if(isCorrect) correctCount++;
+        else if(userVal) wrongCount++;
 
-            // Render
-            const itemDiv = document.createElement('div');
-            const bgColor = isCorrect ? '#f0fff5' : (userVal ? '#fff0f0' : '#fff9f0'); // Light orange for unanswered questions in the local report display.
-            const borderColor = isCorrect ? '#d4edda' : (userVal ? '#f8d7da' : '#ffe5b4');
+        // Render Report Row (Same logic as before)
+        const itemDiv = document.createElement('div');
+        const bgColor = isCorrect ? '#f0fff5' : (userVal ? '#fff0f0' : '#fff9f0'); // Light orange for unanswered questions
+        const borderColor = isCorrect ? '#d4edda' : (userVal ? '#f8d7da' : '#ffe5b4');
 
-            itemDiv.style.cssText = `display:flex; flex-direction:column; gap:0.5vw; margin-bottom:1vw; padding:0.8vw; border-radius:8px; border:1px solid ${borderColor}; background-color:${bgColor};`;
+        itemDiv.style.cssText = `display:flex; flex-direction:column; gap:0.5vw; margin-bottom:1vw; padding:0.8vw; border-radius:8px; border:1px solid ${borderColor}; background-color:${bgColor};`;
 
-            const headerRow = document.createElement('div');
-            headerRow.style.cssText = 'display:flex; gap:1.5vw; align-items:flex-start;';
-            const badgeColor = isCorrect ? '#00B633' : (userVal ? '#FF0000' : '#FBB24A');
+        const headerRow = document.createElement('div');
+        headerRow.style.cssText = 'display:flex; gap:1.5vw; align-items:flex-start;';
+        const badgeColor = isCorrect ? '#00B633' : (userVal ? '#FF0000' : '#FBB24A');
 
-            headerRow.innerHTML = `<div style="width:2.8vw; height:2.8vw; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:1.2vw; flex-shrink:0; background-color:${badgeColor};">${index + 1}</div><p style="font-size:1vw; font-weight:500; margin:0; flex:1; padding-top:0.3vw;">${q.question_text}</p>`;
-            itemDiv.appendChild(headerRow);
+        headerRow.innerHTML = `<div style="width:2.8vw; height:2.8vw; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:1.2vw; flex-shrink:0; background-color:${badgeColor};">${index + 1}</div><p style="font-size:1vw; font-weight:500; margin:0; flex:1; padding-top:0.3vw;">${q.question_text}</p>`;
+        itemDiv.appendChild(headerRow);
 
-            const optionsGrid = document.createElement('div');
-            optionsGrid.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:1.2vw; margin-left:4.5vw;';
-            const opts = [{l:'A',t:q.option_a}, {l:'B',t:q.option_b}, {l:'C',t:q.option_c}, {l:'D',t:q.option_d}];
+        const optionsGrid = document.createElement('div');
+        optionsGrid.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:1.2vw; margin-left:4.5vw;';
+        const opts = [{l:'A',t:q.option_a}, {l:'B',t:q.option_b}, {l:'C',t:q.option_c}, {l:'D',t:q.option_d}];
 
-            opts.forEach(opt => {
-                const isSelected = opt.l === userVal;
-                const isReal = opt.l === q.correct_answer;
-                let color = '#888'; let weight = '400'; let iconClass = 'fa-regular fa-circle';
+        opts.forEach(opt => {
+            const isSelected = opt.l === userVal;
+            const isReal = opt.l === q.correct_answer;
+            let color = '#000'; let weight = '500'; let iconClass = 'fa-regular fa-circle';
 
-                if(isReal) { color='#00B633'; weight='700'; iconClass='fa-solid fa-circle-check'; }
-                else if(isSelected) { color='#FF0000'; weight='700'; iconClass='fa-solid fa-circle-xmark'; }
+            if(isReal) { color='#00B633'; weight='500'; iconClass='fa-solid fa-circle-check'; }
+            else if(isSelected) { color='#FF0000'; weight='500'; iconClass='fa-solid fa-circle-xmark'; }
 
-                optionsGrid.innerHTML += `<div style="display:flex; align-items:center; gap:1vw; color:${color}; font-weight:${weight};"><i class="${iconClass}" style="font-size:1.3vw;"></i><span style="font-size:1vw;">${opt.l}. ${opt.t}</span></div>`;
-            });
-            itemDiv.appendChild(optionsGrid);
-            reportList.appendChild(itemDiv);
+            optionsGrid.innerHTML += `<div style="display:flex; align-items:center; gap:1vw; color:${color}; font-weight:${weight};"><i class="${iconClass}" style="font-size:1.3vw;"></i><span style="font-size:1vw;">${opt.l}. ${opt.t}</span></div>`;
         });
-    }
-
+        itemDiv.appendChild(optionsGrid);
+        reportList.appendChild(itemDiv);
+    });
+    
+    // Update Correct/Wrong Count Elements
     if(document.getElementById('reportCorrectCount')) document.getElementById('reportCorrectCount').textContent = `${correctCount}`;
     if(document.getElementById('reportWrongCount')) document.getElementById('reportWrongCount').textContent = `${wrongCount}`;
 
-    // **MODIFIED SECTION: REPLACE TIME EFFICIENCY WITH TOTAL ANSWERED**
-
-    // FIX: USER TIME EFFICIENCY BOX - Converts to Total Attended Questions
-    const firstKpiBox = document.querySelector('.report-kpi-box-1') || document.getElementById('reportTimer')?.closest('div').parentElement;
-
-    if(firstKpiBox) {
-        firstKpiBox.classList.add('report-kpi-box-1');
-        const headerEl = firstKpiBox.querySelector('h3');
-        if (headerEl) headerEl.textContent = "Total Answered"; // <--- CHANGED TITLE
-
-        const container = firstKpiBox.querySelector('div[style*="position:relative"]');
-
-        // Ensure pathLength="100" is explicitly added here
-        if (container) {
-             container.innerHTML = `
-                <svg viewBox="0 0 36 36" style="width: 100%; height: 100%;">
-                    <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f3f4f6" stroke-width="3"></circle>
-                    <circle id="reportAnsweredCircle" cx="18" cy="18" r="15.915" fill="none" stroke="#2563EB" stroke-width="3" stroke-dasharray="0 100" pathLength="100" transform="rotate(-90 18 18)"></circle>
-                </svg>
-                <div id="reportAnsweredCountDisplay" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Montserrat',sans-serif; font-weight:700; font-size:1.8vw; color:#2563EB;">
-                    ${answers.length}
-                </div>
-            `;
-        }
-
-        // Use updateProgressFill to visually represent the answered count relative to total questions
-        const totalAnsweredPct = (answers.length / TOTAL_QUESTIONS) * 100;
-        updateProgressFill('reportAnsweredCircle', totalAnsweredPct);
-    }
-    // **END MODIFIED SECTION**
-
+    // Update Correct/Wrong KPI Circles
     const correctPct = (correctCount / TOTAL_QUESTIONS) * 100;
     const wrongPct = (wrongCount / TOTAL_QUESTIONS) * 100;
-
-    // These now use the fixed instant update
     updateProgressFill('reportCorrectCircle', correctPct);
     updateProgressFill('reportWrongCircle', wrongPct);
+
+
+    // **********************************************
+    // *** MODIFICATION LOGIC: TOTAL ANSWERED KPI ***
+    // **********************************************
+
+    // The logic below assumes the HTML structure in step 1 is implemented,
+    // where the original 'reportTimer' elements are renamed to 'reportAnswered'.
+
+    const totalAnsweredCount = answers.length;
+    const answeredCountDisplay = document.getElementById('reportAnsweredCountDisplay');
+    const answeredCircle = document.getElementById('reportAnsweredCircle');
+
+    if (answeredCountDisplay) {
+        // 1. Update the count text
+        answeredCountDisplay.textContent = `${totalAnsweredCount}`; 
+    }
+    
+    if (answeredCircle) {
+        // 2. Calculate and update the circle fill (percentage of total questions answered)
+        const totalAnsweredPct = (totalAnsweredCount / TOTAL_QUESTIONS) * 100;
+        answeredCircle.setAttribute('pathLength', '100');
+        updateProgressFill('reportAnsweredCircle', totalAnsweredPct);
+    }
 }
     // ==========================================
     // 6. QUIZ LOGIC (USER SIDE)
