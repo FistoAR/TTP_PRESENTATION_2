@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function updateDropdownButtonLabel(slideNumber) {
+function updateDropdownButtonLabel(slideNumber) {
   // Get label from the respective slide
   const slideItems = document.querySelectorAll('.slide-item');
   const slide = slideItems[slideNumber - 1];
@@ -44,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Call this on initial script run and whenever the slide changes:
 updateDropdownButtonLabel(1);
+
+window.setDropdownHighlight = highlightCurrentDropdownLink;
+window.updateDropdownTitle = updateDropdownButtonLabel;
 
 // In your dropdown click handler:
 dropdownMenu.addEventListener('click', function (e) {

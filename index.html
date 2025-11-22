@@ -112,16 +112,23 @@
     <header class="absolute top-[2vw] left-0 w-full flex justify-between items-center px-[4vw] z-999 fixed ">
         <div class="flex gap-[2.5vw]">
             <div class="flex gap-[1vw] ">
-                <img src="./assets/Images/Home_Slide/youtube_icon.svg" alt="youtube_icon" class="cursor-pointer w-[1.5vw]"
-                    style="margin-left: 5vw;" />
-                <img src="./assets/Images/Home_Slide/linkedin_icon.svg" alt="linkedin_icon"
-                    class="cursor-pointer w-[1.5vw]" />
-                <img src="./assets/Images/Home_Slide/website_icon.svg" alt="website_icon"
-                    class="cursor-pointer w-[1.5vw]" />
-                <img src="./assets/Images/Home_Slide/instagram_icon.svg" alt="instagram_icon"
-                    class="cursor-pointer w-[1.5vw]" />
+                <a href="https://www.youtube.com/@TerraTechPacks" target="_blank">
+                    <img src="./assets/Images/Home_Slide/youtube_icon.svg" alt="youtube_icon" class="cursor-pointer w-[1.5vw]"
+                        style="margin-left: 5vw;" />
+                </a>
+                <a href="https://www.linkedin.com/company/terratechpacks" target="_blank">
+                    <img src="./assets/Images/Home_Slide/linkedin_icon.svg" alt="linkedin_icon"
+                        class="cursor-pointer w-[1.5vw]" />
+                </a>
+                <a href="https://terratechpacks.com" target="_blank">
+                    <img src="./assets/Images/Home_Slide/website_icon.svg" alt="website_icon"
+                        class="cursor-pointer w-[1.5vw]" />
+                </a>
+                <a href="https://www.instagram.com/terratechpacks" target="_blank">
+                    <img src="./assets/Images/Home_Slide/instagram_icon.svg" alt="instagram_icon"
+                        class="cursor-pointer w-[1.5vw]" />
+                </a>
             </div>
-
             <div class="page-dropdown">
                 <button class="dropdown-btn flex items-center gap-[1vw] border border-[#FBB24A] text-[1vw] rounded-full text-sm hover:bg-[#ffae00] hover:text-white transition"
                     id="dropdownToggle" style="padding: .5vw 1vw;">
@@ -1644,29 +1651,51 @@
      * This function is called by updateSlideCounter in slide.js.
      * @param {number} slideNumber - The 1-based index of the current slide.
      */
-function updateDropdownTitle(slideNumber) {
-        const dropdownSpan = document.querySelector('.dropdown-selected-title');
-        // Ensure dropdownLinks are queried dynamically in case the DOM was updated.
-        const dropdownItems = document.querySelectorAll('#dropdownMenu a');
+// index.html - Inside the <script> block
+// ...
 
-        if (dropdownSpan) {
-            dropdownItems.forEach(function(link) {
-                // Use data-slide-index for comparison (1-based)
-                const linkSlideIndex = parseInt(link.getAttribute('data-slide-index'));
-                
-                if (linkSlideIndex === slideNumber) {
-                    // 1. Makes the item active (the "orange" selection)
-                    link.classList.add('current-page'); 
-                    // 2. Updates the button title
-                    dropdownSpan.textContent = link.textContent; 
-                } else {
-                    link.classList.remove('current-page');
-                }
-            });
+
+function updateDropdownTitle(slideNumber) {
+    console.log('📢 updateDropdownTitle called with:', slideNumber); // DEBUG
+    
+    const dropdownSpan = document.querySelector('.dropdown-selected-title');
+    const dropdownItems = document.querySelectorAll('#dropdownMenu a');
+
+    dropdownItems.forEach(link => {
+        const linkSlideIndex = parseInt(link.getAttribute('data-slide'));
+        const fullText = (link.textContent || '').trim();
+        const colonIndex = fullText.indexOf(':');
+        const cleanTitle = colonIndex !== -1 
+            ? fullText.substring(colonIndex + 1).trim()
+            : fullText;
+
+        if (linkSlideIndex === slideNumber) {
+            console.log('✅ Updating title to:', cleanTitle); // DEBUG
+            
+            // Highlight dropdown item with !important
+            link.style.setProperty('background-color', '#FBB24A', 'important');
+            link.style.setProperty('color', '#ffffff', 'important');
+            link.style.setProperty('font-weight', '700', 'important');
+            link.style.setProperty('border-radius', '0.5em', 'important');
+            link.classList.add('current-page');
+
+            // Update dropdown title (clean name)
+            if (dropdownSpan) dropdownSpan.textContent = cleanTitle;
+
+        } else {
+            // Reset all others
+            link.style.removeProperty('background-color');
+            link.style.removeProperty('color');
+            link.style.removeProperty('font-weight');
+            link.style.removeProperty('border-radius');
+            link.classList.remove('current-page');
         }
-    }
-    // Expose globally for use in slide.js
-    window.updateDropdownTitle = updateDropdownTitle;
+    });
+}
+
+// ...
+window.updateDropdownTitle = updateDropdownTitle;
+// ...
 
 
     // ==========================================
@@ -2729,7 +2758,7 @@ function generateUserReport(answers) {
                         ${options.map((option, i) => `
                             <label class="flex items-center gap-[0.8vw] font-regular cursor-pointer hover:bg-[#FFFCF7] p-[0.5vw] rounded-[0.5vw] transition" style="font-family: 'Montserrat';">
                                 <input type="radio" name="q_${index}_option" value="${labels[i]}" class="w-[1.1vw] h-[1.1vw] cursor-pointer custom-radio" onchange="updateStats()">
-                                <span class="text-[0.9vw] text-gray-700 font-medium">${option}</span>
+                                <span class="text-[0.9vw] text-gray-700 font-medium" style="max-width: 90%;">${option}</span>
                             </label>
                         `).join("")}
                     </div>
@@ -2854,6 +2883,7 @@ document.addEventListener("DOMContentLoaded", () => {
             item.className = 'dropdown-item block px-4 py-2 text-gray-700 hover:bg-gray-100 text-[0.9vw] cursor-pointer';
             // Use index + 1 as the data attribute for slide identification in JS
             item.setAttribute('data-slide-index', index + 1); 
+            // Set the full text for display, updateDropdownTitle will parse this.
             item.textContent = `Page ${index + 1}: ${cleanTitle}`;
             
             item.onclick = (e) => {
@@ -2871,15 +2901,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     console.error("scrollToSlide function not found.");
                 }
+                
+                // CRITICAL: Call the update immediately on click
+                updateDropdownTitle(targetSlideIndex);
             };
 
             dropdownMenu.appendChild(item);
         });
-    }
-
-    // Set initial title (Page 1) and total count
-    // The initial call happens inside slide.js after initialization (updateSlideCounter(1)).
-});
+    }});
 </script>
 
 
@@ -3057,22 +3086,36 @@ document.addEventListener("DOMContentLoaded", () => {
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const headings = document.querySelectorAll(".letters-slide-infinite");
+document.addEventListener("DOMContentLoaded", () => {
+  const headings = document.querySelectorAll(".letters-slide-infinite");
 
-            headings.forEach(h => {
-                const text = h.textContent.trim();
-                h.innerHTML = "";
+  headings.forEach(h => {
+    const text = h.textContent.trim();
+    h.innerHTML = "";
+    h.style.perspective = "1000px";
 
-                [...text].forEach((char, index) => {
-                    const span = document.createElement("span");
-                    span.classList.add("letter");
-                    span.textContent = char === " " ? "\u00A0" : char;
-                    span.style.animationDelay = (index * 0.04) + "s";
-                    h.appendChild(span);
-                });
-            });
-        });
+    [...text].forEach((char, index) => {
+      const span = document.createElement("span");
+      span.classList.add("letter");
+      span.textContent = char === " " ? "\u00A0" : char;
+      span.style.animationDelay = (index * 0.1) + "s";
+      h.appendChild(span);
+    });
+  });
+});
+
+        setTimeout(() => {
+    console.log('🔍 Checking dropdown items:');
+    const items = document.querySelectorAll('#dropdownMenu a');
+    items.forEach((item, i) => {
+        console.log(`Item ${i + 1}:`, item.getAttribute('data-slide-index'), item.textContent);
+    });
+    
+    // Force highlight first item
+    if (window.refreshDropdownActivePage) {
+        window.refreshDropdownActivePage(1);
+    }
+}, 200);
     </script>
     <script src="./js/animation.js"></script>
     <script src="./js/slide.js"></script>
