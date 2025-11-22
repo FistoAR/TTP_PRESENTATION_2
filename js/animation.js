@@ -117,61 +117,6 @@ function animateSlide1() {
     { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out" }, 
     0.3
   );
-
-  // Container animation - ALL 3 CONTAINERS
-  const containers = [
-    root + " img[alt='250ml-container']",
-    root + " img[alt='450ml-container']",
-    root + " img[alt='1kg-container']",
-    root + " img[alt='250ml-glass-container']"
-  ];
-  
-  const popUpDuration = 0.8;    
-  const holdDuration = 1.0;     
-  const moveDuration = 1.5;     
-  const totalCycle = popUpDuration + holdDuration + moveDuration;
-  
-  // Infinite timeline
-  let infiniteTl = gsap.timeline({ repeat: -1, paused: true });
-  
-  // Set initial state for all 3 containers
-  gsap.set(containers, { y: 100, opacity: 0, scale: 0.9 });
-  
-  // Animate each container sequentially
-  containers.forEach((container, index) => {
-    const startTime = index * totalCycle;
-    
-    infiniteTl
-      // 1. Pop up from bottom
-      .to(container, {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: popUpDuration,
-        ease: "power3.out"
-      }, startTime)
-      // 2. Hold/pause for 1 second
-      .to(container, {
-        y: 0,
-        duration: holdDuration
-      }, startTime + popUpDuration)
-      // 3. Move upward and fade out
-      .to(container, {
-        y: -120,
-        opacity: 0,
-        duration: moveDuration,
-        ease: "power1.in"
-      }, startTime + popUpDuration + holdDuration)
-      // 4. Reset to bottom
-      .set(container, {
-        y: 100,
-        opacity: 0,
-        scale: 0.9
-      });
-  });
-  
-  // Start infinite animation
-  tl.add(() => infiniteTl.play(), 0.8);
   
   // FIXED: Reset on reverse scroll / leave
   tl.scrollTrigger.vars.onLeaveBack = () => {
