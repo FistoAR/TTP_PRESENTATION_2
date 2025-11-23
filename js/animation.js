@@ -82,9 +82,12 @@ function animateSlide1() {
   const mainTextSelector = root + " .header-txt-1";
   const locationTextSelector = root + " .absolute.top-\\[44\\%\\] .flex.flex-col.header-txt-1";
 
-  // ⭐ FIXED 1: SET INITIAL STATE TO HIDE ELEMENTS BEFORE ANIMATION ⭐
-  // This prevents the flicker when the page loads.
-  gsap.set([mainTextSelector, locationTextSelector], { opacity: 0 }); 
+  // Image selector and set initial state: rotated 180deg and invisible
+  const homeAnimateSelector = root + " img[alt='Home_animate']";
+  gsap.set(homeAnimateSelector, { transformOrigin: "50% 50%", rotation: 180, opacity: 0 });
+
+  // Ensure text is hidden before animation
+  gsap.set([mainTextSelector, locationTextSelector], { opacity: 0 });
 
   let tl = gsap.timeline({
     scrollTrigger: {
@@ -96,54 +99,63 @@ function animateSlide1() {
     }
   });
 
-  // ⭐ FIXED 2: Change to gsap.fromTo() to guarantee the final state is VISIBLE ⭐
-  // Initial animations (Text blocks)
-  tl.fromTo(mainTextSelector, 
-    { x: -250, opacity: 0 }, 
-    { x: 0, opacity: 1, duration: 1, ease: "power3.out" }, 
+  // Main text animation
+  tl.fromTo(
+    mainTextSelector,
+    { x: -250, opacity: 0 },
+    { x: 0, opacity: 1, duration: 1, ease: "power3.out" },
     0.1
   );
 
-  // Location/Clock text animation
-  tl.fromTo(locationTextSelector, 
-    { y: 40, opacity: 0 }, 
-    { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: "power2.out" }, 
+  // Location text animation
+  tl.fromTo(
+    locationTextSelector,
+    { y: 40, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: "power2.out" },
     0.5
-  ); 
-  
-  // Image animation (remains gsap.fromTo)
-  tl.fromTo(root + " img[alt='bottom-circle']", 
-    { y: 100, opacity: 0, scale: 0.9 }, 
-    { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out" }, 
+  );
+
+  // IMAGE: start at rotation 180 (already set via gsap.set) and opacity 0,
+  // animate to rotation 0 (original) while fading to opacity 1
+  tl.fromTo(
+    homeAnimateSelector,
+    {
+      rotation: 90,
+      opacity: 0
+    },
+    {
+      rotation: 0,        // animate back to the original orientation
+      opacity: 1,
+      duration: 2,
+      ease: "power3.Out"
+    },
     0.3
   );
-  
-  // FIXED: Reset on reverse scroll / leave
+
+  // When scrolling back past the section, reset image to rotated (180) & hidden
   tl.scrollTrigger.vars.onLeaveBack = () => {
-    infiniteTl.pause(0);
-    gsap.set(containers, { y: 100, opacity: 0, scale: 0.9 });
+    try { if (typeof infiniteTl !== "undefined" && infiniteTl) infiniteTl.pause(0); } catch(e){}
+    try { if (typeof containers !== "undefined" && containers) gsap.set(containers, { y: 100, opacity: 0, scale: 0.9 }); } catch(e){}
     
-    // Explicitly reset the text elements to their final visible state
-    gsap.set([mainTextSelector, locationTextSelector], { 
-        x: 0, 
-        y: 0, 
-        opacity: 1,
-        clearProps: "transform, opacity" 
-    });
+    // reset text and image so animation can replay
+    gsap.set([mainTextSelector, locationTextSelector], { opacity: 0, x: 0, y: 0 });
+    gsap.set(homeAnimateSelector, { rotation: 90, opacity: 0, clearProps: "transform" });
   };
-  
-  // Also ensure the loop stops immediately if the scroll position jumps past.
+
+  // Stop any infinite loops on leaving the section
   tl.scrollTrigger.vars.onLeave = () => {
-    infiniteTl.pause(0);
+    try { if (typeof infiniteTl !== "undefined" && infiniteTl) infiniteTl.pause(0); } catch(e){}
   };
-  
-  // Re-enable infinite loop if we scroll back in
+
+  // When re-entering from back, ensure image starts from rotated state so it plays again
   tl.scrollTrigger.vars.onEnterBack = () => {
-      // Re-add the animation state, ensuring visibility
-      gsap.set([mainTextSelector, locationTextSelector], { opacity: 1, x: 0, y: 0 });
-      infiniteTl.play();
+    gsap.set([mainTextSelector, locationTextSelector], { opacity: 1, x: 0, y: 0 });
+    gsap.set(homeAnimateSelector, { rotation: 180, opacity: 0 });
+    try { if (typeof infiniteTl !== "undefined" && infiniteTl) infiniteTl.play(); } catch(e){}
   };
 }
+
+
 // ==========================================
 // SLIDE 2: TYPES OF FOOD CONTAINERS
 // ==========================================
