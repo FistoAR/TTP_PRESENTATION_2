@@ -89,13 +89,32 @@ function animateSlide1() {
   });
 
   // Location and clock info
-  createSlideAnimation(".slide-item:nth-child(1) .flex.flex-col.gap", {
+  createSlideAnimation(".slide-item:nth-child(1) .clock", {
     opacity: 0,
     y: 40,
     duration: 0.8,
     delay: 0.3,
     stagger: 0.15
   });
+
+// Animate elements on the RIGHT → slide in from the RIGHT
+createSlideAnimation(".slide-item:nth-child(1) .right", {
+  opacity: 0,
+  x: 40,        // move from right to left
+  duration: 0.8,
+  delay: 0.3,
+  stagger: 0.15
+});
+
+// Animate elements on the LEFT → slide in from the LEFT
+createSlideAnimation(".slide-item:nth-child(1) .left", {
+  opacity: 0,
+  x: -40,       // move from left to right
+  duration: 0.8,
+  delay: 0.3,
+  stagger: 0.15
+});
+
 }
 
 
