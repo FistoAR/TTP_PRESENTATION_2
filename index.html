@@ -1216,7 +1216,7 @@
                 style="background: rgba(255, 255, 255, 0.7); margin: 5vw 0 3vw; margin-bottom:2vw;">
                 <div class="mb-[2vw] absolute top-0 left-0 w-[100vw] flex justify-between items-center bg-[#fef4e7] shadow-[0_4px_10px_rgba(0,0,0,0.1)]"
                     style="padding: 1.5vw 4vw;">
-                    <button onclick="handleBackToHome()"
+                    <button onclick="handleBackToQuestions()"
                         class="absolute top-[10vw] left-[1vw] z-[60] flex items-center justify-center bg-white text-[#FBB24A] hover:bg-[#FF9600] hover:text-white transition-all duration-300 shadow-lg rounded-full w-[2.5vw] h-[2.5vw] cursor-pointer border-[0.1vw] border-[#FBB24A]"
                         title="Back to Home">
                         <i class="fa-solid fa-arrow-left text-[1.5vw]"></i>
@@ -2338,7 +2338,7 @@ window.updateDropdownTitle = updateDropdownTitle;
                             
                             ${generateKpiBox('Score Overall 80%+', `${kpiData.score80PercentOrOverPercentage}%`, '#FBB24A', kpiData.score80PercentOrOverPercentage, 'fa-star', '#FFF')}
                             
-                            <button onclick="handleBackToHome()" 
+                            <button onclick="handleBackToQuestions()" 
                                     style="background-color: #FBB24A; color: white; padding: 1vw 1.5vw; border: none; border-radius: 999px; font-weight: 600; font-size: 1vw; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 15px rgba(251, 178, 74, 0.3); transition: background-color 0.2s;">
                                 Back to Presentation
                             </button>
@@ -2502,11 +2502,48 @@ window.updateDropdownTitle = updateDropdownTitle;
     // 5. NAVIGATION / UI HANDLERS (MAIN)
     // ==========================================
 
-    function handleBackToHome() {
+function handleBackToHome() {
+        // 1. Stop the timer
+        if (timerInterval) clearInterval(timerInterval);
+        
+        // 2. Refresh questions for the next session
+        fetchQuestions(); 
+        
+        // 3. HIDE ALL SCREENS (The Fix is here)
+        // We added 'quizScreen', 'reportScreen', and 'adminReportScreen' to this list
+        const screens = ['quizScreen', 'resultsScreen', 'reportScreen', 'adminReportScreen'];
+        screens.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('active', 'blurred');
+                el.style.display = 'none';
+            }
+        });
+
+        // 4. Restore the Header and Navigation
+        document.querySelector('header').style.display = '';
+        document.querySelector('.nav-wrapper').style.display = '';
+        document.querySelector('.counter-display').style.display = '';
+        if (document.querySelector('img.fixed')) document.querySelector('img.fixed').style.display = 'none';
+
+        // 5. Scroll back to the Home Slide
+        const homeSlide = document.querySelector(".slide-item[data-navigation='Home']");
+        if (homeSlide) homeSlide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // 6. Reset the entry form
+        const detailsForm = document.getElementById('detailsForm');
+        if(detailsForm) detailsForm.reset();
+
+        // 7. Ensure backdrop is removed
+        const backdrop = document.getElementById('backdrop');
+        if(backdrop) backdrop.classList.remove('active');
+    }
+
+    function handleBackToQuestions() {
         if (timerInterval) clearInterval(timerInterval);
         fetchQuestions(); 
         
-        const screens = ['quizScreen', 'resultsScreen', 'reportScreen', 'adminReportScreen'];
+        const screens = ['quizScreen', 'reportScreen', 'adminReportScreen'];
         screens.forEach(id => {
             const el = document.getElementById(id);
             if (el) {
@@ -2520,7 +2557,7 @@ window.updateDropdownTitle = updateDropdownTitle;
         document.querySelector('.counter-display').style.display = '';
         if (document.querySelector('img.fixed')) document.querySelector('img.fixed').style.display = 'none';
 
-        const homeSlide = document.querySelector(".slide-item[data-navigation='Home']");
+        const homeSlide = document.querySelector(".slide-item[data-navigation='Questions']");
         if (homeSlide) homeSlide.scrollIntoView({ behavior: 'smooth', block: 'start' });
         
         const detailsForm = document.getElementById('detailsForm');
